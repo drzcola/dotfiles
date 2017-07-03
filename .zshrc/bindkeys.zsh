@@ -1,0 +1,3 @@
+#KEY BINDS
+
+bindkey -v
