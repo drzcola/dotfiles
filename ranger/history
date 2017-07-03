@@ -1,0 +1,10 @@
+open_with fish
+rename beamdogClient-2.1.2-x86_64.AppImage
+rename
+rename vim.png
+sh
+open_with 2
+delete
+open_with 3
+open_with 
+
