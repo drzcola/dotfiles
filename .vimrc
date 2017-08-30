@@ -16,6 +16,8 @@ Plugin 'vim-airline/vim-airline-themes'
 Plugin 'ctrlpvim/ctrlp.vim'
 " vim-fugitive
 Plugin 'tpope/vim-fugitive'
+" railscasts theme
+Plugin 'jpo/vim-railscasts-theme'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
