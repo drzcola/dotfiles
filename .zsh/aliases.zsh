@@ -1,5 +1,5 @@
 # Colorize output, add file type indicator, and put sizes in human readable format
-alias ls='ls -GFh'
+alias ls='ls --color'
 
 # tmux aliases
 alias tnew='tmux new -s '
