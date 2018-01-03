@@ -140,14 +140,13 @@ set -g message-bg colour166
 # List of plugins
 set -g @plugin 'tmux-plugins/tpm'
 set -g @plugin 'tmux-plugins/tmux-resurrect'
+set -g @resurrect-capture-pane-contents 'on'
 
 # Other examples:
 # set -g @plugin 'github_username/plugin_name'
 # set -g @plugin 'git@github.com/user/plugin'
 # set -g @plugin 'git@bitbucket.com/user/plugin'
 
-# Restore pane contents
-set -g @resurrect-capture-pane-contents 'on'
 # Restore vim sessions
 set -g @resurrect-strategy-vim 'session'
 
