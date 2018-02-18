@@ -1,0 +1,3377 @@
+#SKILL
+Name         reserved~
+Type         PSI
+Flags        0
+Minpos       8
+Dammsg       ~
+Wearoff      ???~
+End
+
+#SKILL
+Name         affect mind~
+Type         PSI
+Flags        0
+Target       1
+Minpos       8
+Slot         7
+Mana         5
+Rounds       12
+Code         spell_charm_person
+Dammsg       ~
+Wearoff      You feel more self-confident.~
+Teachers     50 605~
+End
+
+#SKILL
+Name         alertness~
+Type         PSI
+Flags        0
+Target       3
+Minpos       8
+Slot         102
+Mana         60
+Rounds       15
+Code         spell_smaug
+Dammsg       ~
+Wearoff      You are suddenly less alert.~
+Hitvict      You suddenly feel alert.~
+Hitroom      $N's eyes dart about the room in an alert manner.~
+Teachers     50 605~
+Affect       'l*15' 27 '1024' 0
+End
+
+#SKILL
+Name         anestesia~
+Type         PSI
+Flags        268435456
+Minpos       8
+Slot         39
+Mana         15
+Rounds       12
+Code         spell_anestesia
+Dammsg       ~
+Wearoff      Poco a poco vas despertando de la anestesia...~
+End
+
+#SKILL
+Name         aqua breath~
+Type         PSI
+Flags        2097152
+Target       2
+Minpos       8
+Slot         236
+Mana         50
+Rounds       12
+Code         spell_smaug
+Dammsg       ~
+Wearoff      Your lungs revert to their original state.~
+Hitchar      $N's lungs take on the ability to breathe water...~
+Hitvict      Your lungs take on the ability to breathe water...~
+Hitroom      $N's lungs take on the ability to breathe water...~
+Teachers     50 605~
+Affect       'l*23' 26 'aqua breath' 2147483648
+Alignment   100
+End
+
+#SKILL
+Name         armor~
+Type         PSI
+Flags        0
+Target       2
+Minpos       8
+Slot         1
+Mana         5
+Rounds       12
+Code         spell_smaug
+Dammsg       ~
+Wearoff      El efecto del complejo administrado va remitiendo...~
+Hitchar      ~
+Hitvict      Sientes como tu sistema inmunitario se ve mejorado con el complejo vitamínico.~
+Hitroom      ~
+Teachers     50~
+Affect       'l*20' 17 '-20' 0
+Alignment   1001
+End
+
+#SKILL
+Name         beauty~
+Type         PSI
+Flags        0
+Target       2
+Minpos       8
+Slot         226
+Mana         14
+Rounds       12
+Code         spell_smaug
+Dammsg       ~
+Wearoff      You stop enhancing yourself.~
+Hitchar      $N seems more jovial.~
+Hitvict      Drawing the Force, you change yourself to be more likeable.~
+Hitroom      $N suddenly seems like a much nicer person.~
+Teachers     50 605~
+Affect       'l*24' 25 '1+(l/17)' 0
+Alignment   1001
+End
+
+#SKILL
+Name         blindness~
+Type         PSI
+Flags        0
+Target       1
+Minpos       7
+Slot         4
+Mana         5
+Rounds       12
+Code         spell_blindness
+Dammsg       ~
+Wearoff      You can see again.~
+Teachers     605~
+Alignment   -1001
+End
+
+#SKILL
+Name         change sex~
+Type         PSI
+Flags        0
+Target       2
+Minpos       7
+Slot         82
+Mana         15
+Rounds       12
+Code         spell_change_sex
+Dammsg       ~
+Wearoff      Tu cuerpo vuelve a serte familiar.~
+Hitchar      $N chilla mientras su género cambia.~
+Hitvict      Un escalofrío te recorre mientras tu género cambia.~
+Hitroom      $N chilla mientras su género cambia.~
+Affect       'l*230' 6 '1' -1
+End
+
+#SKILL
+Name         choke~
+Type         PSI
+Flags        4
+Target       1
+Minpos       7
+Slot         63
+Mana         20
+Rounds       12
+Code         spell_cause_critical
+Dammsg       spell~
+Wearoff      !Cause Critical!~
+Hitchar      Stretching out with the force you slowly choke your victim.~
+Hitvict      You feel a tight pressure around your throat.~
+Hitroom      $N begins to claw at $S throat.~
+Teachers     605~
+Alignment   -1001
+End
+
+#SKILL
+Name         create fire~
+Type         PSI
+Flags        33554953
+Minpos       8
+Slot         85
+Mana         10
+Rounds       12
+Code         spell_smaug
+Dammsg       ~
+Wearoff      !Create Fire!~
+Hitchar      A small cloud of vaporous flame bursts forth before you.~
+Hitroom      A small cloud of vaporous flame bursts forth before $n.~
+Value        30
+Teachers     50 605~
+End
+
+#SKILL
+Name         cure blindness~
+Type         PSI
+Flags        0
+Target       2
+Minpos       7
+Slot         14
+Mana         5
+Rounds       12
+Code         spell_cure_blindness
+Dammsg       ~
+Wearoff      !Cure Blindness!~
+Teachers     50~
+Alignment   1001
+End
+
+#SKILL
+Name         cure critical~
+Type         PSI
+Flags        0
+Target       2
+Minpos       7
+Slot         15
+Mana         20
+Rounds       12
+Code         spell_smaug
+Dammsg       ~
+Wearoff      !Cure Critical!~
+Hitchar      Empiezas a sanar las heridas críticas de $N.~
+Hitvict      Tus heridas críticas comienzan a cerrarse.~
+Affect       '' 13 '3d8+(l-6)' 0
+Alignment   1001
+End
+
+#SKILL
+Name         cure light~
+Type         PSI
+Flags        0
+Target       2
+Minpos       7
+Slot         16
+Mana         10
+Rounds       12
+Code         spell_smaug
+Dammsg       ~
+Wearoff      !cure light!~
+Hitchar      Empiezas a sanar las heridas leves de $N.~
+Hitvict      Tus heridas leves comienzan a cerrarse.~
+Affect       '' 13 '1d8+(l/3)' 0
+Alignment   1001
+End
+
+#SKILL
+Name         cure poison~
+Type         PSI
+Flags        0
+Target       2
+Minpos       8
+Slot         43
+Mana         5
+Rounds       12
+Code         spell_cure_poison
+Dammsg       ~
+Wearoff      !Cure Poison!~
+Teachers     50~
+Alignment   1001
+End
+
+#SKILL
+Name         cure serious~
+Type         PSI
+Flags        0
+Target       2
+Minpos       7
+Slot         61
+Mana         15
+Rounds       12
+Code         spell_smaug
+Dammsg       ~
+Wearoff      !Cure Serious!~
+Hitchar      Empiezas a sanar las heridas graves de $N.~
+Hitvict      Tus heridas graves comienzan a cerrarse.~
+Affect       '' 13 '2d8+(l/2)' 0
+Alignment   1001
+End
+
+#SKILL
+Name         detect darkness~
+Type         PSI
+Flags        0
+Target       3
+Minpos       8
+Slot         18
+Mana         5
+Rounds       12
+Code         spell_smaug
+Dammsg       ~
+Wearoff      You stop focusing on the Dark Side.~
+Hitvict      Traces of red outline all those who abuse the Force.~
+Hitroom      A tint of red appears in $N's eyes, mirroring his own vision.~
+Teachers     50~
+Affect       'l*24' 26 'detect evil' 4
+Alignment   1001
+End
+
+#SKILL
+Name         detect force~
+Type         PSI
+Flags        0
+Target       3
+Minpos       8
+Slot         20
+Mana         5
+Rounds       12
+Code         spell_smaug
+Dammsg       ~
+Wearoff      The blue outlines disappear from your vision.~
+Hitvict      Traces of blue outline objects touched by the Force.~
+Hitroom      A tint of blue in $N's eyes mirrors $S own perception.~
+Teachers     50 605~
+Affect       'l*24' 26 'detect magic' 16
+End
+
+#SKILL
+Name         detect intent~
+Type         PSI
+Flags        0
+Target       2
+Minpos       7
+Slot         58
+Mana         9
+Rounds       12
+Code         spell_know_alignment
+Dammsg       ~
+Wearoff      !Know Alignment!~
+Teachers     50 605~
+End
+
+#SKILL
+Name         detect masking~
+Type         PSI
+Flags        0
+Target       3
+Minpos       8
+Slot         19
+Mana         5
+Rounds       12
+Code         spell_smaug
+Dammsg       ~
+Wearoff      You no longer see invisible objects.~
+Hitvict      Your eyes fixate as they gain the ability to see the unseen.~
+Hitroom      $N's eyes fixate as they gain the ability to see the unseen.~
+Teachers     50 605~
+Affect       'l*24' 26 'detect invis' 8
+End
+
+#SKILL
+Name         detect poison~
+Type         PSI
+Flags        0
+Target       4
+Minpos       8
+Slot         21
+Mana         5
+Rounds       12
+Code         spell_detect_poison
+Dammsg       ~
+Wearoff      !Detect Poison!~
+Teachers     50 605~
+End
+
+#SKILL
+Name         detect traps~
+Type         PSI
+Flags        0
+Target       3
+Minpos       8
+Slot         86
+Mana         15
+Rounds       12
+Code         spell_smaug
+Dammsg       ~
+Wearoff      You feel less aware of the dangers about you.~
+Hitvict      You suddenly grow aware of the dangers about you.~
+Hitroom      $N peers about the room, intent on finding all manner of danger.~
+Teachers     50 605~
+Affect       'l*24' 26 'detect traps' 8388608
+End
+
+#SKILL
+Name         dispel dark~
+Type         PSI
+Flags        0
+Target       1
+Minpos       7
+Slot         22
+Mana         15
+Rounds       12
+Code         spell_dispel_evil
+Dammsg       dispel evil~
+Wearoff      !Dispel Evil!~
+Teachers     50~
+Alignment   1001
+End
+
+#SKILL
+Name         dispel force~
+Type         PSI
+Flags        0
+Target       1
+Minpos       7
+Slot         59
+Mana         15
+Rounds       12
+Code         spell_dispel_magic
+Dammsg       ~
+Wearoff      !Dispel Magic!~
+Teachers     50 605~
+End
+
+#SKILL
+Name         drain essence~
+Type         PSI
+Flags        4
+Target       1
+Minpos       7
+Slot         25
+Mana         35
+Rounds       12
+Code         spell_energy_drain
+Dammsg       energy drain~
+Wearoff      !Energy Drain!~
+Teachers     50 605~
+Alignment   -1001
+End
+
+#SKILL
+Name         dream~
+Type         PSI
+Flags        0
+Minpos       8
+Slot         233
+Mana         5
+Rounds       12
+Code         spell_dream
+Dammsg       ~
+Wearoff      !Dream!~
+Teachers     50 605~
+End
+
+#SKILL
+Name         earthquake~
+Type         PSI
+Flags        0
+Minpos       7
+Slot         23
+Mana         15
+Rounds       12
+Code         spell_earthquake
+Dammsg       earthquake~
+Wearoff      !Earthquake!~
+Teachers     605~
+Alignment   -1001
+End
+
+#SKILL
+Name         excitar~
+Type         PSI
+Flags        0
+Target       2
+Minpos       7
+Slot         31
+Mana         20
+Rounds       12
+Code         spell_smaug
+Dammsg       ~
+Wearoff      !excitar!~
+Hitchar      Tu terapia excita a $N.~
+Hitvict      Te siente más excitado.~
+Affect       '' 59 'l' 0
+End
+
+#SKILL
+Name         extraer_implante~
+Type         Habilidad
+Flags        0
+Minpos       8
+Conc         10
+Rounds       4
+Code         do_recover_implant
+Dammsg       extraer~
+Wearoff      !extraer!~
+Difficulty   3
+Teachers     829~
+End
+
+#SKILL
+Name         farsight~
+Type         PSI
+Flags        0
+Minpos       8
+Slot         222
+Mana         15
+Rounds       12
+Code         spell_farsight
+Dammsg       ~
+Wearoff      !Farsight!~
+Teachers     50 605~
+End
+
+#SKILL
+Name         fatigue~
+Type         PSI
+Flags        0
+Target       1
+Minpos       7
+Slot         103
+Mana         60
+Rounds       15
+Code         spell_smaug
+Dammsg       ~
+Wearoff      You no longer feel so sleepy.~
+Hitchar      $N suddenly appears very tired and drowsy.~
+Hitvict      You suddenly grow very tired and drowsy.~
+Hitroom      $N suddenly appears very tired and drowsy.~
+Immchar      Mysteriously, $N was not affected by your spell.~
+Teachers     605~
+Affect       'l*15' 29 '1024' 0
+Alignment   -1001
+End
+
+#SKILL
+Name         feebleness~
+Type         PSI
+Flags        12582912
+Target       1
+Minpos       7
+Slot         107
+Mana         30
+Rounds       10
+Code         spell_smaug
+Dammsg       ~
+Wearoff      You no longer feel so feeble.~
+Hitchar      You lay a curse of feebleness upon $N.~
+Hitvict      You grow feeble from a powerful curse.~
+Hitroom      $n lays a curse of feebleness upon $N.~
+Immchar      $N is not affected by your spell.~
+Teachers     605~
+Affect       'l*19' 29 '512' 0
+Alignment   -1001
+End
+
+#SKILL
+Name         fireball~
+Type         PSI
+Flags        1
+Target       1
+Minpos       7
+Slot         26
+Mana         15
+Rounds       12
+Code         spell_fireball
+Dammsg       fireball~
+Wearoff      !Fireball!~
+Teachers     605~
+Alignment   -1001
+End
+
+#SKILL
+Name         flamestrike~
+Type         PSI
+Flags        1
+Target       1
+Minpos       7
+Slot         65
+Mana         20
+Rounds       12
+Code         spell_flamestrike
+Dammsg       flamestrike~
+Wearoff      !Flamestrike!~
+Teachers     605~
+Alignment   -1001
+End
+
+#SKILL
+Name         float~
+Type         PSI
+Flags        0
+Target       2
+Minpos       8
+Slot         292
+Mana         8
+Rounds       18
+Code         spell_smaug
+Dammsg       ~
+Wearoff      Your feet float slowly to the surface.~
+Hitchar      $N begins to float in mid-air...~
+Hitvict      You begin to float in mid-air...~
+Hitroom      $N begins to float in mid-air...~
+Teachers     50 605~
+Affect       'l*24' 26 'float' 2097152
+End
+
+#SKILL
+Name         force blast wrath~
+Type         PSI
+Flags        12616076
+Minpos       7
+Slot         115
+Mana         120
+Rounds       24
+Code         spell_smaug
+Dammsg       spiritual wrath~
+Dice         44*W~
+Participants 3
+Components   V@43~
+Teachers     605~
+Affect       '6' 26 'blindness' 1
+Alignment   -1001
+End
+
+#SKILL
+Name         force bolt~
+Type         PSI
+Flags        3
+Target       1
+Minpos       7
+Slot         30
+Mana         15
+Rounds       12
+Code         spell_lightning_bolt
+Dammsg       lightning bolt~
+Wearoff      !Lightning Bolt!~
+Teachers     605~
+Alignment   -1001
+End
+
+#SKILL
+Name         force bubble~
+Type         PSI
+Flags        0
+Target       3
+Minpos       8
+Slot         224
+Mana         40
+Rounds       12
+Code         spell_smaug
+Dammsg       ~
+Wearoff      The shimmering shell and its protection from the Force fade away...~
+Hitvict      A shimmering translucent shell forms about you.~
+Hitroom      A shimmering translucent shell forms about $N.~
+Teachers     50~
+Affect       'l*24' 27 '2907151' 0
+Affect       'l*20' 17 '-80' 0
+Alignment   1001
+End
+
+#SKILL
+Name         force funnel~
+Type         PSI
+Flags        0
+Target       1
+Minpos       7
+Slot         218
+Mana         75
+Rounds       22
+Code         spell_smaug
+Dammsg       ~
+Wearoff      The funnel of Force about you ceases to exist.~
+Hitchar      You erect a Force funnel about $N...~
+Hitvict      An aura surrounds you, channeling violent energies in your direction!~
+Hitroom      A Force funnel forms about $N...~
+Immchar      The Force funnel dissipates before it reaches $N.~
+Teachers     605~
+Affect       'l*23' 29 '8' 0
+Alignment   -1001
+End
+
+#SKILL
+Name         force lightning~
+Type         PSI
+Flags        908
+Target       1
+Minpos       7
+Slot         303
+Mana         35
+Rounds       8
+Code         spell_black_lightning
+Dammsg       Force Lightning~
+Wearoff      !WEAROFF!~
+Teachers     605~
+Alignment   -1001
+End
+
+#SKILL
+Name         force shield~
+Type         PSI
+Flags        0
+Target       3
+Minpos       8
+Slot         217
+Mana         75
+Rounds       22
+Code         spell_smaug
+Dammsg       ~
+Wearoff      You are returned to the mundane energy continuum.~
+Hitvict      You fade from the mundane energy continuum.~
+Hitroom      A shield of Force divides $N from the mundane energy continuum.~
+Teachers     50~
+Affect       'l*24' 27 '1048576' 0
+Affect       'l*20' 17 '-50' 0
+Alignment   1001
+End
+
+#SKILL
+Name         force sight~
+Type         PSI
+Flags        0
+Target       2
+Minpos       8
+Slot         77
+Mana         5
+Rounds       18
+Code         spell_smaug
+Dammsg       ~
+Wearoff      You no longer see in the dark.~
+Hitchar      $N's eyes dart about as they grow accustomed to Force sight.~
+Hitvict      Heat appears red through your eyes.~
+Hitroom      $N's eyes dart about as they grow accustomed to Force sight.~
+Teachers     50 605~
+Affect       'l*24' 26 'infravision' 512
+End
+
+#SKILL
+Name         force spray~
+Type         PSI
+Flags        4
+Target       1
+Minpos       7
+Slot         62
+Mana         15
+Rounds       12
+Code         spell_cause_light
+Dammsg       spell~
+Wearoff      !Cause Light!~
+Teachers     605~
+Alignment   -1001
+End
+
+#SKILL
+Name         forethought~
+Type         PSI
+Flags        0
+Target       2
+Minpos       8
+Slot         228
+Mana         12
+Rounds       12
+Code         spell_smaug
+Dammsg       ~
+Wearoff      Furrowing your brow, you sense the weight of wisdom leave you.~
+Hitchar      $N grows serious as wisdom takes root within $M.~
+Hitvict      The wisdom of the Force blossoms within you.~
+Hitroom      $N grows serious as wisdom takes root within $M.~
+Teachers     50~
+Affect       'l*24' 4 '1+(l/17)' 0
+Alignment   1001
+End
+
+#SKILL
+Name         good fortune~
+Type         PSI
+Flags        0
+Target       2
+Minpos       8
+Slot         3
+Mana         5
+Rounds       12
+Code         spell_smaug
+Dammsg       ~
+Wearoff      The protection of the Force fades away.~
+Hitchar      You lay the blessing of the Force upon $N.~
+Hitvict      A powerful blessing is laid upon you.~
+Hitroom      $N beams as a powerful blessing is laid upon $M.~
+Teachers     50~
+Affect       'l*23' 18 'l/8' 0
+Affect       'l*23' 24 '-(l/8)' 0
+Alignment   999
+End
+
+#SKILL
+Name         group masking~
+Type         PSI
+Flags        16777216
+Target       2
+Minpos       8
+Slot         69
+Mana         20
+Rounds       24
+Code         spell_smaug
+Dammsg       ~
+Wearoff      You are no longer masked.~
+Hitvict      You fade from existence.~
+Hitroom      $N fades from existence.~
+Teachers     50 605~
+Affect       'l*11' 26 'mass invis' 2
+End
+
+#SKILL
+Name         hand of Darkness~
+Type         PSI
+Flags        908
+Target       1
+Minpos       7
+Slot         307
+Mana         15
+Rounds       8
+Code         spell_hand_of_chaos
+Dammsg       Hand of Chaos~
+Wearoff      !WEAROFF!~
+Teachers     605~
+Alignment   -1001
+End
+
+#SKILL
+Name         harm~
+Type         PSI
+Flags        4
+Target       1
+Minpos       7
+Slot         27
+Mana         35
+Rounds       12
+Code         spell_harm
+Dammsg       harm spell~
+Wearoff      !Harm!~
+Teachers     605~
+Alignment   -1001
+End
+
+#SKILL
+Name         heal~
+Type         PSI
+Flags        0
+Target       2
+Minpos       7
+Slot         28
+Mana         50
+Rounds       12
+Code         spell_smaug
+Dammsg       ~
+Wearoff      !Heal!~
+Hitchar      You lay a hand of healing upon $N.~
+Hitvict      A warm feeling fills your body.~
+Teachers     50~
+Affect       '' 13 '100' 0
+Alignment   1001
+End
+
+#SKILL
+Name         heightened awareness~
+Type         PSI
+Flags        0
+Target       3
+Minpos       8
+Slot         44
+Mana         5
+Rounds       12
+Code         spell_smaug
+Dammsg       ~
+Wearoff      You feel less aware of your surroundings.~
+Hitvict      Your senses are heightened to those of an animal.~
+Hitroom      $N's senses are heightened to those of an animal.~
+Teachers     50 605~
+Affect       'l*24' 26 'detect hidden' 32
+End
+
+#SKILL
+Name         hemorragia~
+Type         PSI
+Flags        68157440
+Minpos       8
+Slot         40
+Mana         15
+Rounds       12
+Code         spell_null
+Dammsg       ~
+Wearoff      Tu herida se ha cerrado.~
+End
+
+#SKILL
+Name         illuminate~
+Type         PSI
+Flags        33554952
+Minpos       8
+Slot         57
+Mana         7
+Rounds       12
+Code         spell_smaug
+Dammsg       ~
+Wearoff      !Continual Light!~
+Hitchar      Shards of iridescent light collide to form a dazzling ball...~
+Hitroom      Shards of iridescent light collide to form a dazzling ball...~
+Dice         0~
+Value        21
+Teachers     50 605~
+End
+
+#SKILL
+Name         inner fortress~
+Type         PSI
+Flags        0
+Target       3
+Minpos       8
+Slot         66
+Mana         12
+Rounds       18
+Code         spell_smaug
+Dammsg       ~
+Wearoff      You soften.~
+Hitvict      You steel yourself against pain.~
+Hitroom      $N's face hardens.~
+Teachers     50~
+Affect       'l*20' 13 'l*5' 0
+Affect       'l*20' 5 '5' 0
+Alignment   1001
+End
+
+#SKILL
+Name         invade essence~
+Type         PSI
+Flags        4
+Target       1
+Minpos       7
+Slot         64
+Mana         17
+Rounds       12
+Code         spell_cause_serious
+Dammsg       spell~
+Wearoff      !Cause Serious!~
+Teachers     605~
+Alignment   -1001
+End
+
+#SKILL
+Name         know essence~
+Type         PSI
+Flags        0
+Minpos       8
+Slot         53
+Mana         12
+Rounds       24
+Code         spell_identify
+Dammsg       ~
+Wearoff      !Identify!~
+Teachers     50 605~
+End
+
+#SKILL
+Name         mask~
+Type         PSI
+Flags        0
+Minpos       8
+Slot         29
+Mana         5
+Rounds       12
+Code         spell_invis
+Dammsg       ~
+Wearoff      You are no longer invisible.~
+Hitchar      $N fades from existence.~
+Hitvict      You fade from existence.~
+Hitroom      $N fades from existence.~
+Teachers     50 605~
+Affect       'l*11' 26 'invis' 2
+End
+
+#SKILL
+Name         med cure~
+Type         PSI
+Flags        135266304
+Target       2
+Minpos       8
+Slot         32
+Mana         10
+Rounds       20
+Code         spell_med_cure
+Dammsg       ~
+Wearoff      Parece que las medicinas ya han hecho su efecto.~
+End
+
+#SKILL
+Name         poison~
+Type         PSI
+Flags        268435456
+Target       1
+Minpos       8
+Slot         33
+Mana         10
+Rounds       20
+Code         spell_poison
+Dammsg       poison~
+Wearoff      Te sientes menos enfermo.~
+Teachers     605~
+Alignment   -1001
+End
+
+#SKILL
+Name         possess~
+Type         PSI
+Flags        0
+Minpos       8
+Slot         232
+Mana         120
+Rounds       12
+Code         spell_possess
+Dammsg       possess~
+Wearoff      You return to your body.~
+Teachers     605~
+Alignment   -1001
+End
+
+#SKILL
+Name         protection from darkness~
+Type         PSI
+Flags        0
+Target       3
+Minpos       8
+Slot         34
+Mana         5
+Rounds       12
+Code         spell_smaug
+Dammsg       ~
+Wearoff      You feel less protected from the Dark Side.~
+Hitvict      You are blessed with a protection from the Dark Side.~
+Hitroom      $N is blessed with a protection from the Dark Side.~
+Teachers     50~
+Affect       'l*10' 26 'protection' 8192
+Alignment   1001
+End
+
+#SKILL
+Name         refresh~
+Type         PSI
+Flags        0
+Target       2
+Minpos       8
+Slot         81
+Mana         12
+Rounds       18
+Code         spell_smaug
+Dammsg       refresh~
+Wearoff      !Refresh!~
+Hitchar      Tu fuerza mental permite que $N se note más descansado.~
+Hitvict      Te sientes menos cansado.~
+Teachers     50~
+Affect       '' 14 'l' 0
+Alignment   1001
+End
+
+#SKILL
+Name         relajar~
+Type         PSI
+Flags        0
+Target       2
+Minpos       7
+Slot         24
+Mana         20
+Rounds       12
+Code         spell_smaug
+Dammsg       ~
+Wearoff      !relajar!~
+Hitchar      Tu terapia relaja a $N.~
+Hitvict      Te siente más relajado.~
+Affect       '' 59 '-l' 0
+End
+
+#SKILL
+Name         remove masking~
+Type         PSI
+Flags        0
+Minpos       8
+Slot         230
+Mana         10
+Rounds       12
+Code         spell_remove_invis
+Dammsg       ~
+Wearoff      !Remove Invis!~
+Teachers     50 605~
+End
+
+#SKILL
+Name         remove trap~
+Type         PSI
+Flags        0
+Minpos       8
+Slot         87
+Mana         35
+Rounds       12
+Code         spell_remove_trap
+Dammsg       ~
+Wearoff      !Remove trap!~
+Teachers     50 605~
+End
+
+#SKILL
+Name         restoration~
+Type         PSI
+Flags        29360128
+Minpos       7
+Slot         113
+Mana         80
+Rounds       20
+Code         spell_smaug
+Dammsg       ~
+Hitvict      A warm feeling flows through you.~
+Hitroom      A warm feeling flows through $N.~
+Participants 2
+Components   V@43~
+Teachers     50~
+Affect       '' 13 '200' 0
+Alignment   1001
+End
+
+#SKILL
+Name         sanctuary~
+Type         PSI
+Flags        0
+Target       2
+Minpos       8
+Slot         36
+Mana         75
+Rounds       12
+Code         spell_smaug
+Dammsg       ~
+Wearoff      The luminous aura about your body fades away.~
+Hitchar      A luminous aura spreads slowly over $N's body.~
+Hitvict      A luminous aura spreads slowly over your body.~
+Hitroom      A luminous aura spreads slowly over $N's body.~
+Teachers     50~
+Affect       '(l*4)+30' 26 'sanctuary' 128
+Alignment   1001
+End
+
+#SKILL
+Name         scorching surge~
+Type         PSI
+Flags        1
+Target       1
+Minpos       7
+Slot         296
+Mana         25
+Rounds       12
+Code         spell_scorching_surge
+Dammsg       scorching surge~
+Wearoff      !Scorching Surge!~
+Teachers     605~
+Alignment   -1001
+End
+
+#SKILL
+Name         shield~
+Type         PSI
+Flags        0
+Target       2
+Minpos       8
+Slot         67
+Mana         12
+Rounds       18
+Code         spell_smaug
+Dammsg       ~
+Wearoff      Your force shield shimmers then fades away.~
+Hitchar      A force shield of shimmering blue surrounds $N.~
+Hitvict      A force shield of shimmering blue surrounds you.~
+Hitroom      A force shield of shimmering blue surrounds $N.~
+Teachers     50~
+Affect       'l*20' 17 '-50' 0
+Alignment   1001
+End
+
+#SKILL
+Name         shocking grasp~
+Type         PSI
+Flags        3
+Target       1
+Minpos       7
+Slot         51
+Mana         15
+Rounds       12
+Code         spell_shocking_grasp
+Dammsg       shocking grasp~
+Wearoff      !Shocking Grasp!~
+Teachers     605~
+Alignment   -1001
+End
+
+#SKILL
+Name         shockshield~
+Type         PSI
+Flags        0
+Target       3
+Minpos       8
+Slot         89
+Mana         95
+Rounds       12
+Code         spell_smaug
+Dammsg       ~
+Wearoff      The torrents of cascading energy suddenly fade away.~
+Hitvict      Torrents of cascading energy form around you.~
+Hitroom      Torrents of cascading energy form around $N.~
+Teachers     605~
+Affect       '(l*3)+14' 26 'shockshield' 67108864
+Alignment   -1001
+End
+
+#SKILL
+Name         sleep~
+Type         PSI
+Flags        268435456
+Minpos       8
+Slot         38
+Mana         15
+Rounds       12
+Code         spell_sleep
+Dammsg       ~
+Wearoff      Te sientes menos cansado.~
+Teachers     50 605~
+End
+
+#SKILL
+Name         slink~
+Type         PSI
+Flags        0
+Target       2
+Minpos       8
+Slot         205
+Mana         12
+Rounds       12
+Code         spell_smaug
+Dammsg       ~
+Wearoff      You suddenly feel less coordinated...~
+Hitchar      $N suddenly appears more agile...~
+Hitvict      You suddenly feel more nimble...~
+Hitroom      $N suddenly appears more agile...~
+Teachers     50~
+Affect       'l*24' 2 '1+(l/17)' 0
+Alignment   1001
+End
+
+#SKILL
+Name         true sight~
+Type         PSI
+Flags        0
+Target       3
+Minpos       8
+Slot         235
+Mana         70
+Rounds       12
+Code         spell_smaug
+Dammsg       ~
+Wearoff      Your vision descends to the material plane.~
+Hitvict      Your vision is elevated to the highest plane.~
+Hitroom      $N's eyes begin to glow a soft white.~
+Teachers     50 605~
+Affect       'l-10' 26 'truesight' 4194304
+End
+
+#SKILL
+Name         unravel defense~
+Type         PSI
+Flags        12582912
+Target       1
+Minpos       7
+Slot         110
+Mana         70
+Rounds       15
+Code         spell_smaug
+Dammsg       ~
+Wearoff      Your intricate defenses are restored to their original quality.~
+Hitchar      $N's eyes widen in fear as $S defenses are unravelled.~
+Hitvict      Your defenses are unravelled before your very eyes.~
+Hitroom      $N's eyes widen in fear as $S defenses are unravelled.~
+Immchar      Your spell has no effect upon $N.~
+Teachers     50 605~
+Affect       '(l*3)+25' 29 '8192' 0
+Affect       '(l*3)+25' 29 '1048576' 0
+End
+
+#SKILL
+Name         ventriloquate~
+Type         PSI
+Flags        0
+Minpos       8
+Slot         41
+Mana         5
+Rounds       12
+Code         spell_ventriloquate
+Dammsg       ~
+Wearoff      !Ventriloquate!~
+Teachers     50 605~
+End
+
+#SKILL
+Name         weaken~
+Type         PSI
+Flags        0
+Target       1
+Minpos       7
+Slot         68
+Mana         20
+Rounds       12
+Code         spell_weaken
+Dammsg       spell~
+Wearoff      You feel stronger.~
+Teachers     605~
+Alignment   -1001
+End
+
+#SKILL
+Name         acute_awarness~
+Type         Habilidad
+Flags        0
+Target       3
+Minpos       8
+Rounds       20
+Code         spell_smaug
+Dammsg       ~
+Hitchar      You focus your senses to find those that would hide from you.~
+Teachers     32050~
+Affect       'l*5' 26 'detect hidden' 32
+End
+
+#SKILL
+Name         acute_damage~
+Type         Habilidad
+Flags        0
+Target       3
+Minpos       8
+Rounds       20
+Code         spell_smaug
+Dammsg       You focus on your opponents weak points increasing your damage.~
+Teachers     32050~
+Affect       'l*10' 19 '2+(l/33)' 0
+End
+
+#SKILL
+Name         add_patrol~
+Type         Habilidad
+Flags        0
+Minpos       8
+Rounds       12
+Code         do_add_patrol
+Dammsg       ~
+Wearoff      !!~
+End
+
+#SKILL
+Name         administrar fármaco~
+Type         Habilidad
+Flags        0
+Minpos       8
+Conc         1
+Code         spell_null
+Dammsg       ~
+Wearoff      !administrar medicina!~
+Difficulty   5
+Teachers     829 2097~
+End
+
+#SKILL
+Name         aid~
+Type         Habilidad
+Flags        0
+Minpos       8
+Rounds       12
+Code         do_aid
+Dammsg       ~
+Wearoff      !Aid!~
+Teachers     10340 32006~
+End
+
+#SKILL
+Name         ambidiestro~
+Type         Habilidad
+Flags        0
+Minpos       8
+Fatigue      1
+Conc         1
+Code         spell_null
+Dammsg       ~
+Wearoff      !Dual Wield!~
+Difficulty   6
+Teachers     1269~
+End
+
+#SKILL
+Name         backstab~
+Type         Habilidad
+Flags        0
+Minpos       8
+Rounds       12
+Code         do_backstab
+Dammsg       backstab~
+Wearoff      !Backstab!~
+Teachers     32050~
+End
+
+#SKILL
+Name         banca~
+Type         Habilidad
+Flags        0
+Minpos       8
+Conc         2
+Code         spell_null
+Dammsg       ~
+Wearoff      !banca!~
+Difficulty   6
+Teachers     1620~
+End
+
+#SKILL
+Name         bash~
+Type         Habilidad
+Flags        0
+Target       1
+Minpos       7
+Rounds       8
+Code         do_bash
+Dammsg       bash~
+Wearoff      !Bash!~
+Teachers     32012 32011 412~
+End
+
+#SKILL
+Name         mordisco~
+Type         Habilidad
+Flags        0
+Target       1
+Minpos       7
+Rounds       8
+Code         do_bite
+Dammsg       mordisco~
+Wearoff      !Bite!~
+Teachers     32012 32011 412~
+End
+
+#SKILL
+Name         capacidad fisica~
+Type         Habilidad
+Flags        0
+Target       1
+Conc         5
+Code         spell_null
+Dammsg       capacidad_fisica~
+Wearoff      !capacidad_fisica!~
+Difficulty   6
+Teachers     2043~
+End
+
+#SKILL
+Name         capturar~
+Type         Habilidad
+Flags        0
+Minpos       8
+Conc         75
+Rounds       1
+Code         do_capturar
+Dammsg       capturar~
+Wearoff      !capturar!~
+Difficulty   6
+Teachers     836~
+End
+
+#SKILL
+Name         cargueros~
+Type         Habilidad
+Flags        0
+Minpos       5
+Conc         1
+Code         spell_null
+Dammsg       ~
+Wearoff      !done!~
+Difficulty   4
+Teachers     807 2043~
+End
+
+#SKILL
+Name         cazas~
+Type         Habilidad
+Flags        0
+Minpos       5
+Conc         2
+Code         spell_null
+Dammsg       ~
+Wearoff      !done!~
+Difficulty   4
+Teachers     2043~
+End
+
+#SKILL
+Name         circle~
+Type         Habilidad
+Flags        0
+Minpos       7
+Rounds       8
+Code         do_circle
+Dammsg       circle~
+Wearoff      !Circle!~
+Teachers     32050~
+End
+
+#SKILL
+Name         clonar~
+Type         Habilidad
+Flags        0
+Minpos       8
+Conc         50
+Rounds       120
+Code         spell_null
+Dammsg       ~
+Wearoff      !clonar!~
+Difficulty   2
+Teachers     2097~
+End
+
+#SKILL
+Name         comerciar~
+Type         Habilidad
+Flags        0
+Minpos       8
+Conc         1
+Code         spell_null
+Dammsg       ~
+Wearoff      !comerciar!~
+Difficulty   4
+Teachers     836~
+End
+
+#SKILL
+Name         conducir~
+Type         Habilidad
+Flags        0
+Minpos       5
+Conc         1
+Code         spell_null
+Dammsg       ~
+Wearoff      !done!~
+Difficulty   4
+Teachers     807 2043~
+End
+
+#SKILL
+Name         crédito bancario~
+Type         Habilidad
+Flags        0
+Minpos       8
+Conc         5
+Code         spell_null
+Dammsg       ~
+Wearoff      !crédito bancario!~
+Difficulty   6
+Teachers     1620~
+End
+
+#SKILL
+Name         cubrir~
+Type         Habilidad
+Flags        0
+Minpos       7
+Fatigue      10
+Conc         1
+Code         spell_null
+Dammsg       ~
+Wearoff      !Matrix!~
+Difficulty   7
+Teachers     1269~
+End
+
+#SKILL
+Name         curar hemorragia~
+Type         Habilidad
+Flags        0
+Minpos       8
+Fatigue      0
+Conc         75
+Rounds       2
+Code         do_curar_hemorragia
+Dammsg       ~
+Wearoff      !curar hemorragia!~
+Difficulty   3
+Teachers     2097~
+End
+
+#SKILL
+Name         daño mejorado~
+Type         Habilidad
+Flags        0
+Minpos       7
+Code         spell_null
+Dammsg       ~
+Wearoff      !Enhanced Damage!~
+Difficulty   6
+Teachers     805~
+End
+
+#SKILL
+Name         detrap~
+Type         Habilidad
+Flags        0
+Minpos       6
+Rounds       24
+Code         do_detrap
+Dammsg       ~
+Wearoff      !Detrap!~
+Teachers     32009~
+End
+
+#SKILL
+Name         dig~
+Type         Habilidad
+Flags        0
+Minpos       8
+Rounds       20
+Code         do_dig
+Dammsg       ~
+Teachers     6805 6819~
+End
+
+#SKILL
+Name         disarm~
+Type         Habilidad
+Flags        0
+Minpos       7
+Rounds       24
+Code         do_disarm
+Dammsg       ~
+Wearoff      !Disarm!~
+Teachers     32012 32011 412~
+End
+
+#SKILL
+Name         discurso~
+Type         Habilidad
+Flags        0
+Minpos       8
+Fatigue      5
+Conc         20
+Rounds       12
+Code         do_mass_propeganda
+Dammsg       ~
+Wearoff      !!~
+Difficulty   3
+Teachers     1620~
+End
+
+#SKILL
+Name         disguise~
+Type         Habilidad
+Flags        0
+Minpos       8
+Rounds       12
+Code         do_disguise
+Dammsg       ~
+Wearoff      !disguise!~
+Teachers     32009~
+End
+
+#SKILL
+Name         disparar~
+Type         Habilidad
+Flags        0
+Minpos       8
+Fatigue      2
+Conc         1
+Rounds       12
+Code         do_snipe
+Dammsg       ~
+Wearoff      !snipe!~
+Difficulty   6
+Teachers     805~
+End
+
+#SKILL
+Name         disparo mejorado~
+Type         Habilidad
+Flags        0
+Minpos       8
+Code         spell_null
+Dammsg       ~
+Wearoff      !disparo mejorado!~
+Difficulty   6
+Teachers     1269~
+End
+
+#SKILL
+Name         dominate~
+Type         Habilidad
+Flags        524288
+Target       1
+Minpos       8
+Rounds       12
+Code         spell_charm_person
+Dammsg       ~
+Teachers     32011~
+End
+
+#SKILL
+Name         doorbash~
+Type         Habilidad
+Flags        0
+Minpos       8
+Rounds       24
+Code         do_bashdoor
+Dammsg       bashdoor~
+Wearoff      !Bash Door!~
+Teachers     32050~
+End
+
+#SKILL
+Name         enardecer~
+Type         Habilidad
+Flags        0
+Minpos       8
+Fatigue      10
+Conc         150
+Rounds       12
+Code         do_inflame
+Dammsg       ~
+Wearoff      !enardecer!~
+Difficulty   6
+Teachers     1620~
+End
+
+#SKILL
+Name         encarcelar~
+Type         Habilidad
+Flags        0
+Minpos       8
+Fatigue      50
+Conc	     20
+Rounds       50
+Code         do_jail
+Dammsg       ~
+Wearoff      !encarcelar!~
+Difficulty   6
+Teachers     1620~
+End
+
+#SKILL
+Name         esquivar~
+Type         Habilidad
+Flags        0
+Minpos       7
+Fatigue      4
+Code         spell_null
+Dammsg       ~
+Wearoff      !Dodge!~
+Difficulty   6
+Teachers     1269~
+End
+
+#SKILL
+Name         fabricar 1~
+Type         Habilidad
+Flags        0
+Minpos       5
+Conc         10
+Rounds       60
+Code         do_makesomething
+Dammsg       ~
+Wearoff      !done!~
+Difficulty   2
+Teachers     835 2097~
+End
+
+#SKILL
+Name         focus strength~
+Type         Habilidad
+Flags        0
+Target       3
+Minpos       8
+Rounds       20
+Code         spell_smaug
+Dammsg       ~
+Hitchar      A strong mind leads to a stronger body.~
+Teachers     32050~
+Affect       'l*10' 1 '2+(l/33)' 0
+End
+
+#SKILL
+Name         furia~
+Type         Habilidad
+Flags        0
+Target       1
+Minpos       7
+Fatigue      55
+Conc         10
+Rounds       4
+Code         do_berserk
+Dammsg       ~
+Wearoff      Matar te sienta bien~
+Difficulty   3
+Teachers     1269~
+End
+
+#SKILL
+Name         gather_intelligence~
+Type         Habilidad
+Flags        0
+Minpos       8
+Rounds       12
+Code         spell_null
+Dammsg       ~
+Wearoff      !!~
+End
+
+#SKILL
+Name         gemcutting~
+Type         Habilidad
+Flags        0
+Minpos       5
+Code         do_gemcutting
+Dammsg       ~
+Wearoff      !done!~
+End
+
+#SKILL
+Name         génesis~
+Type         Habilidad
+Flags        0
+Minpos       8
+Conc         60
+Rounds       120
+Code         do_genesis
+Dammsg       ~
+Wearoff      !genesis!~
+Difficulty   2
+Teachers     2097~
+End
+
+#SKILL
+Name         gouge~
+Type         Habilidad
+Flags        0
+Minpos       7
+Rounds       10
+Code         do_gouge
+Dammsg       gouge~
+Wearoff      !Gouge!~
+Teachers     32012 32011 412~
+End
+
+#SKILL
+Name         gravedad cero~
+Type         Habilidad
+Flags        0
+Target       1
+Minpos       8
+Fatigue      1
+Rounds       10
+Code         spell_null
+Dammsg       gravedad cero~
+Wearoff      !gravedad cero!~
+Difficulty   5
+Teachers     2043~
+End
+
+#SKILL
+Name         grenades~
+Type         Habilidad
+Flags        0
+Minpos       5
+Code         spell_null
+Dammsg       ~
+Wearoff      !done!~
+Teachers     32012 32011 412~
+End
+
+#SKILL
+Name         grip~
+Type         Habilidad
+Flags        0
+Minpos       7
+Code         spell_null
+Dammsg       ~
+Wearoff      !Grip!~
+Teachers     32012 32011 412~
+End
+
+#SKILL
+Name         heightened accuracy~
+Type         Habilidad
+Flags        0
+Target       3
+Minpos       8
+Rounds       20
+Code         spell_smaug
+Dammsg       ~
+Hitchar      You focus on your ability to hit your oponent.~
+Teachers     32050~
+Affect       'l*10' 18 '2+(l/33)' 0
+End
+
+#SKILL
+Name         hide~
+Type         Habilidad
+Flags        0
+Target       3
+Minpos       5
+Rounds       12
+Code         do_hide
+Dammsg       ~
+Wearoff      You are no longer hidden.~
+Hitvict      You attempt to hide.~
+Misschar     You attempt to hide.~
+Teachers     32009 410~
+Affect       'l*23' 26 'hide' 65536
+End
+
+#SKILL
+Name         hijack~
+Type         Habilidad
+Flags        0
+Minpos       8
+Rounds       12
+Code         do_hijack
+Dammsg       ~
+Wearoff      !Hijack!~
+Teachers     32009~
+End
+
+#SKILL
+Name         hiperespacio~
+Type         Habilidad
+Flags        0
+Minpos       5
+Conc         5
+Code         spell_null
+Dammsg       ~
+Wearoff      !done!~
+Difficulty   6
+Teachers     807 2043~
+End
+
+#SKILL
+Name         hitall~
+Type         Habilidad
+Flags        0
+Minpos       8
+Rounds       12
+Code         do_hitall
+Dammsg       hit~
+Wearoff      !HitAll!~
+Teachers     32012 32011 412~
+End
+
+#SKILL
+Name         implantar 1~
+Type         Habilidad
+Flags        0
+Minpos       8
+Conc         10
+Rounds       4
+Code         do_implant
+Dammsg       implantar_sencillo~
+Wearoff      !implantar_sencillo!~
+Difficulty   4
+Teachers     2097~
+End
+
+#SKILL
+Name         implantar_dificil~
+Type         Habilidad
+Flags        0
+Minpos       8
+Conc         20
+Rounds       7
+Code         do_implant
+Dammsg       implantar_dificil~
+Wearoff      !implantar_dificil!~
+Difficulty   5
+Teachers     2097~
+End
+
+#SKILL
+Name         implantar_medio~
+Type         Habilidad
+Flags        0
+Minpos       8
+Conc         12
+Rounds       6
+Code         do_implant
+Dammsg       implantar_medio~
+Wearoff      !implantar_medio!~
+Difficulty   5
+Teachers     2097~
+End
+
+#SKILL
+Name         inner strength~
+Type         Habilidad
+Flags        0
+Target       3
+Minpos       8
+Rounds       20
+Code         spell_smaug
+Dammsg       ~
+Hitchar      You harden yourself against pain.~
+Teachers     32050~
+Affect       'l*10' 13 'l*10' 0
+Affect       'l*10' 5 '1+(l/50)' 0
+End
+
+#SKILL
+Name         inyectar~
+Type         Habilidad
+Flags        0
+Minpos       6
+Conc         2
+Rounds       120
+Code         do_inject
+Dammsg       ~
+Wearoff      !!~
+Difficulty   3
+Teachers     829 2097~
+End
+
+#SKILL
+Name         patada~
+Type         Habilidad
+Flags        0
+Target       1
+Minpos       7
+Fatigue      1
+Rounds       8
+Code         do_kick Dammsg       patada~
+Wearoff      !Kick!~
+Teachers     32012 32011 412~
+End
+
+#SKILL
+Name         lightsaber crafting~
+Type         Habilidad
+Flags        0
+Minpos       5
+Code         spell_null
+Dammsg       ~
+Wearoff      !done!~
+Teachers     50 605~
+End
+
+#SKILL
+Name         limber~
+Type         Habilidad
+Flags        0
+Target       3
+Minpos       8
+Rounds       20
+Code         spell_smaug
+Dammsg       ~
+Hitchar      You relax your muscles becoming limber and agile.~
+Misschar     You can't become any more limber.~
+Teachers     32050~
+Affect       'l*10' 2 '2+(l/33)' 0
+End
+
+#SKILL
+Name         limosna~
+Type         Habilidad
+Flags        0
+Minpos       8
+Fatigue      0
+Conc         1
+Rounds       20
+Code         do_beg
+Dammsg       ~
+Wearoff      !Beg!~
+Difficulty   5
+Teachers     836~
+End
+
+#SKILL
+Name         localizacion~
+Type         Habilidad
+Flags        0
+Minpos       8
+Fatigue      0
+Conc         100
+Code         do_localizacion
+Dammsg       ~
+Difficulty   5
+Teachers     2097~
+End
+
+#SKILL
+Name         makearmor~
+Type         Habilidad
+Flags        0
+Minpos       5
+Code         do_makearmor
+Dammsg       ~
+Wearoff      !done!~
+End
+
+#SKILL
+Name         makeblade~
+Type         Habilidad
+Flags        0
+Minpos       5
+Code         do_makeblade
+Dammsg       ~
+Wearoff      !done!~
+End
+
+#SKILL
+Name         makeblaster~
+Type         Habilidad
+Flags        0
+Minpos       5
+Code         do_makeblaster
+Dammsg       ~
+Wearoff      !done!~
+End
+
+#SKILL
+Name         makegrenade~
+Type         Habilidad
+Flags        0
+Minpos       5
+Code         do_makegrenade
+Dammsg       ~
+Wearoff      !done!~
+End
+
+#SKILL
+Name         makejewelry~
+Type         Habilidad
+Flags        0
+Minpos       5
+Code         do_makejewelry
+Dammsg       ~
+Wearoff      !done!~
+End
+
+#SKILL
+Name         makelandmine~
+Type         Habilidad
+Flags        0
+Minpos       5
+Code         do_makelandmine
+Dammsg       ~
+Wearoff      !done!~
+End
+
+#SKILL
+Name         makeshield~
+Type         Habilidad
+Flags        0
+Minpos       5
+Code         do_makeshield
+Dammsg       ~
+Wearoff      !done!~
+End
+
+#SKILL
+Name         meditate~
+Type         Habilidad
+Flags        12582912
+Target       3
+Minpos       5
+Rounds       25
+Code         spell_smaug
+Dammsg       ~
+Hitvict      You meditate peacefully, tuning yourself to the Force.~
+Missvict     You spend several minutes in deep concentration, but fail to find the Force.~
+Teachers     50 605~
+Affect       '' 12 'l' 0
+End
+
+#SKILL
+Name         mine~
+Type         Habilidad
+Flags        0
+Minpos       8
+Rounds       12
+Code         do_mine
+Dammsg       ~
+Wearoff      !mine!~
+Teachers     32012 32011 412~
+End
+
+#SKILL
+Name         misiles~
+Type         Habilidad
+Flags        0
+Minpos       5
+Conc         3
+Code         spell_null
+Dammsg       ~
+Wearoff      !done!~
+Difficulty   3
+Teachers     2043~
+End
+
+#SKILL
+Name        montaje~
+Type        Habilidad
+Flags       0
+Minpos      5
+Conc        5
+Code        do_mech_mount
+Dammsg      ~
+Wearoff     
+
+#SKILL
+Name         navegación~
+Type         Habilidad
+Flags        0
+Minpos       5
+Conc         2
+Code         do_navigation
+Dammsg       ~
+Wearoff      !done!~
+Difficulty   5
+Teachers     2043~
+End
+
+#SKILL
+Name         naves mayores~
+Type         Habilidad
+Flags        0
+Minpos       5
+Conc         5
+Code         spell_null
+Dammsg       ~
+Wearoff      !done!~
+Difficulty   6
+Teachers     2043~
+End
+
+#SKILL
+Name         naves medianas~
+Type         Habilidad
+Flags        0
+Minpos       5
+Conc         3
+Code         spell_null
+Dammsg       ~
+Wearoff      !done!~
+Difficulty   5
+Teachers     2043~
+End
+
+#SKILL
+Name         operar~
+Type         Habilidad
+Flags        0
+Minpos       8
+Conc         10
+Rounds       4
+Code         spell_null
+Dammsg       operar~
+Wearoff      !operar!~
+Difficulty   4
+Teachers     2097~
+End
+
+#SKILL
+Name         otear~
+Type         Habilidad
+Flags        0
+Minpos       8
+Conc         1
+Code         do_scan
+Dammsg       ~
+Wearoff      !Scan!~
+Difficulty   6
+Teachers     805~
+End
+
+#SKILL
+Name         parry~
+Type         Habilidad
+Flags        0
+Minpos       7
+Code         spell_null
+Dammsg       ~
+Wearoff      !Parry!~
+Teachers     50 605~
+End
+
+#SKILL
+Name         peek~
+Type         Habilidad
+Flags        0
+Minpos       8
+Code         spell_null
+Dammsg       ~
+Wearoff      !Peek!~
+Teachers     32009 410~
+End
+
+#SKILL
+Name         perspicacia~
+Type         Habilidad
+Flags        0
+Minpos       8
+Fatigue      23
+Conc         28
+Code         do_perspicacia
+Dammsg       ~
+Difficulty   4
+Teachers     1620~
+End
+
+#SKILL
+Name         pick lock~
+Type         Habilidad
+Flags        0
+Minpos       8
+Rounds       12
+Code         do_pick
+Dammsg       ~
+Wearoff      !Pick!~
+Teachers     32009~
+End
+
+#SKILL
+Name         pick ship lock~
+Type         Habilidad
+Flags        0
+Minpos       8
+Rounds       12
+Code         do_pickshiplock
+Dammsg       ~
+Wearoff      !Pickshiplock!~
+Teachers     32009~
+End
+
+#SKILL
+Name         pilotaje veloz~
+Type         Habilidad
+Flags        0
+Minpos       6
+Conc         5
+Rounds       6
+Code         spell_null
+Dammsg       pilotajeveloz~
+Wearoff      !pilotajeveloz!~
+Difficulty   4
+Teachers     2043~
+End
+
+#SKILL
+Name         poison weapon~
+Type         Habilidad
+Flags        0
+Target       4
+Minpos       8
+Rounds       12
+Code         do_poison_weapon
+Dammsg       poisonous concoction~
+Wearoff      !Poison Weapon!~
+Teachers     32050~
+End
+
+#SKILL
+Name         post guard~
+Type         Habilidad
+Flags        0
+Minpos       8
+Conc         2
+Rounds       12
+Code         do_postguard
+Dammsg       ~
+Wearoff      !post guard!~
+Teachers     32011~
+End
+
+#SKILL
+Name         presentarse~
+Type         Habilidad
+Flags        0
+Minpos       8
+Conc         5
+Rounds       12
+Code         do_smalltalk
+Dammsg       ~
+Wearoff      !!~
+Difficulty   4
+Teachers     1620~
+End
+
+#SKILL
+Name         primeros auxilios~
+Type         Habilidad
+Flags        0
+Minpos       8
+Conc         10
+Rounds       12
+Code         do_first_aid
+Dammsg       ~
+Wearoff      !First Aid!~
+Difficulty   2
+Teachers     2097~
+End
+
+#SKILL
+Name         promoción~
+Type         Habilidad
+Flags        0
+Minpos       8
+Conc         5
+Code         spell_null
+Dammsg       ~
+Wearoff      !promoción!~
+Difficulty   4
+Teachers     1620~
+End
+
+#SKILL
+Name         descuento~
+Type         Habilidad
+Flags        0
+Minpos       8
+Conc         5
+Code         spell_null
+Dammsg       ~
+Wearoff      !descuento!~
+Difficulty   6
+Teachers     1620~
+End
+
+#SKILL
+Name         propaganda~
+Type         Habilidad
+Flags        0
+Minpos       8
+Conc         15
+Rounds       12
+Code         do_propeganda
+Dammsg       ~
+Wearoff      !!~
+Difficulty   4
+Teachers     1620~
+End
+
+#SKILL
+Name         propiedad~
+Type         Habilidad
+Flags        0
+Minpos       8
+Conc         5
+Rounds       1
+Code         do_propiedad
+Dammsg       propiedad~
+Wearoff      !propiedad!~
+Difficulty   4
+Teachers     836~
+End
+
+#SKILL
+Name         puñetazo~
+Type         Habilidad
+Flags        0
+Target       1
+Minpos       7
+Rounds       8
+Code         do_punch
+Dammsg       puñetazo~
+Wearoff      !Punch!~
+Teachers     32012 32011 412~
+End
+
+#SKILL
+Name         radar~
+Type         Habilidad
+Flags        0
+Minpos       5
+Conc         1
+Code         do_radar
+Dammsg       ~
+Wearoff      !done!~
+Difficulty   4
+Teachers     2043~
+End
+
+#SKILL
+Name         reciclaje 1~
+Type         Habilidad
+Flags        0
+Minpos       8
+Conc         1
+Rounds       20
+Code         do_recycle
+Dammsg       reciclaje~
+Wearoff      !reciclaje!~
+Difficulty   4
+Teachers     835 2097~
+End
+
+#SKILL
+Name         reciclaje 2~
+Type         Habilidad
+Flags        0
+Minpos       8
+Conc         2
+Rounds       20
+Code         do_recycle
+Dammsg       reciclaje~
+Wearoff      !reciclaje!~
+Difficulty   5
+Teachers     2097~
+End
+
+#SKILL
+Name         recolectar protolita~
+Type         Habilidad
+Flags        0
+Minpos       8
+Conc         5
+Rounds       40
+Code         do_recolectar_protolita
+Dammsg       recolectar_protolita~
+Wearoff      !recolectar_protolita!~
+Difficulty   4
+Teachers     835 2097~
+End
+
+#SKILL
+Name        recolectar acitum~
+Type        Habilidad
+Flags       0
+Minpos      8
+Conc        5
+Rounds      40
+Code        do_recolectar_acitum
+Dammsg      recolectar_acitum~
+Wearoff     !recolectar_acitum!~
+Difficulty  4
+Teachers    835 2097~
+End
+
+#SKILL
+Name         reconocer~
+Type         Habilidad
+Flags        0
+Minpos       8
+Fatigue      23
+Conc         28
+Code         do_identify
+Dammsg       ~
+Wearoff      !identificar!~
+Difficulty   4
+Teachers     2097~
+End
+
+#SKILL
+Name         recuperar recurso~
+Type         Habilidad
+Flags        0
+Minpos       5
+Conc         5
+Rounds       240
+Code         do_recover_debris
+Dammsg       recuperar recurso~
+Wearoff      !recuperar recurso!~
+Difficulty   3
+Teachers     2043~
+End
+
+#SKILL
+Name         refuerzos~
+Type         Habilidad
+Flags        0
+Minpos       8
+Rounds       12
+Code         do_elite_guard
+Dammsg       ~
+Wearoff      !!~
+Teachers     1620~
+End
+
+#SKILL
+Name         reinforcements~
+Type         Habilidad
+Flags        0
+Minpos       8
+Rounds       12
+Code         do_reinforcements
+Dammsg       ~
+Wearoff      !reinforcements!~
+Teachers     32011~
+End
+
+
+#SKILL
+Name         rescue~
+Type         Habilidad
+Flags        0
+Minpos       7
+Rounds       12
+Code         do_rescue
+Dammsg       ~
+Wearoff      !Rescue!~
+Teachers     32012 32011 412~
+End
+
+#SKILL
+Name         retirar implantes 1~
+Type         Habilidad
+Flags        0
+Minpos       8
+Conc         8
+Rounds       4
+Code         do_remove_implant
+Dammsg       retirar_sencillo~
+Wearoff      !retirar_sencillo!~
+Difficulty   3
+Teachers     2097~
+End
+
+#SKILL
+Name         sanar~
+Type         Habilidad
+Flags        0
+Minpos       8
+Conc         1
+Rounds       12
+Code         do_sanar
+Dammsg       ~
+Wearoff      !Sanando!~
+Difficulty   6
+Teachers     2097~
+End
+
+#SKILL
+Name         scribe~
+Type         Habilidad
+Flags        0
+Target       4
+Minpos       8
+Rounds       12
+Code         do_scribe
+Dammsg       ~
+Wearoff      !Scribe!~
+End
+
+#SKILL
+Name         search~
+Type         Habilidad
+Flags        0
+Minpos       8
+Rounds       20
+Code         do_search
+Dammsg       ~
+Wearoff      !Search!~
+Teachers     32009 410~
+End
+
+#SKILL
+Name         seducir~
+Type         Habilidad
+Flags        0
+Minpos       8
+Conc         20
+Rounds       12
+Code         do_seduce
+Dammsg       ~
+Wearoff      !!~
+Difficulty   5
+Teachers     1620~
+End
+
+#SKILL
+Name         valorar~
+Type         Habilidad
+Flags        0
+Minpos       8
+Conc         2
+Rounds       0
+Code         do_value
+Dammsg       ~
+Wearoff      !!~
+Difficulty   6
+Teachers     836~
+End
+
+#SKILL
+Name         recaudar~
+Type         Habilidad
+Flags        0
+Minpos       8
+Conc         200
+Rounds       12
+Code         do_recaudar
+Dammsg       ~
+Wearoff      !!~
+Difficulty   6
+Teachers     1620~
+End
+
+#SKILL
+Name         see masking~
+Type         Habilidad
+Flags        0
+Target       3
+Minpos       8
+Rounds       20
+Code         spell_smaug
+Dammsg       ~
+Hitchar      You focus your senses in an effort to detect the unseen.~
+Teachers     32050~
+Affect       'l*5' 26 'detect invis' 8
+End
+
+#SKILL
+Name         seguimiento~
+Type         Habilidad
+Flags        0
+Minpos       5
+Conc         20
+Code         do_tracking
+Dammsg       seguimiento~
+Wearoff      !seguimiento!~
+Difficulty   3
+Teachers     2043~
+End
+
+#SKILL
+Name         ataque múltiple~
+Type         Habilidad
+Flags        0
+Minpos       7
+Fatigue      0
+Code         spell_null
+Dammsg       ~
+Wearoff      !Ataque Multiple!~
+Difficulty   6
+Teachers     1269~
+End
+
+#SKILL
+Name         ataque básico~
+Type         Habilidad
+Flags        0
+Minpos       7
+Fatigue      0
+Code         spell_null
+Dammsg       ataque~
+Wearoff      !ataque basico!~
+Difficulty   6
+Teachers     805~
+End
+
+#SKILL
+Name         artes marciales~
+Type         Habilidad
+Flags        0
+Minpos       7
+Fatigue      2
+Code         spell_null
+Dammsg       ~
+Wearoff      !artes marciales!~
+Difficulty   6
+Teachers     1269~
+End
+
+#SKILL
+Name         sintetizar sangre~
+Type         Habilidad
+Flags        0
+Minpos       8
+Conc         5
+Code         do_sintetizar
+Dammsg       ~
+Wearoff      !sintetizar sangre!~
+Difficulty   3
+Teachers     2097~
+End
+
+#SKILL
+Name	     desarrollar farmaco 1~
+Type	     Habilidad
+Flags 	     0
+Minpos       8
+Conc   	     5
+Code         do_sintetize
+Dammsg       ~
+Wearoff      !desarrollar farmaco!~
+Difficulty   3
+Teachers     2097~
+End
+
+#SKILL
+Name         sistemas de armamento~
+Type         Habilidad
+Flags        0
+Minpos       5
+Conc         1
+Code         spell_null
+Dammsg       ~
+Wearoff      !done!~
+Difficulty   5
+Teachers     2043~
+End
+
+#SKILL
+Name         sistemas de naves~
+Type         Habilidad
+Flags        0
+Minpos       5
+Conc         1
+Code         spell_null
+Dammsg       ~
+Wearoff      !done!~
+Difficulty   5
+Teachers     807 2043~
+End
+
+#SKILL
+Name         sneak~
+Type         Habilidad
+Flags        0
+Target       3
+Minpos       8
+Rounds       1
+Code         spell_smaug
+Dammsg       ~
+Hitvict      You attempt to move silently.~
+Misschar     You attempt to move silently.~
+Teachers     32009 410~
+Affect       'l*23' 26 'sneak' 32768
+End
+
+#SKILL
+Name         sobornar~
+Type         Habilidad
+Flags        0
+Minpos       8
+Fatigue      2
+Conc         10
+Rounds       12
+Code         do_bribe
+Dammsg       ~
+Wearoff      !!~
+Difficulty   3
+Teachers     1602~
+End
+
+#SKILL
+Name         space combat 1~
+Type         Habilidad
+Flags        0
+Minpos       5
+Code         spell_null
+Dammsg       ~
+Wearoff      !done!~
+Teachers     32007 32008 32040~
+End
+
+#SKILL
+Name         space combat 2~
+Type         Habilidad
+Flags        0
+Minpos       5
+Code         spell_null
+Dammsg       ~
+Wearoff      !done!~
+Teachers     32007 32008 32040~
+End
+
+#SKILL
+Name         space combat 3~
+Type         Habilidad
+Flags        0
+Minpos       5
+Code         spell_null
+Dammsg       ~
+Wearoff      !done!~
+Teachers     32007 32008 32040~
+End
+
+#SKILL
+Name         special_forces~
+Type         Habilidad
+Flags        0
+Minpos       8
+Rounds       12
+Code         spell_null
+Dammsg       ~
+Wearoff      !!~
+End
+
+#SKILL
+Name         spice refining~
+Type         Habilidad
+Flags        0
+Minpos       5
+Code         spell_null
+Dammsg       ~
+Wearoff      !done!~
+End
+
+#SKILL
+Name         steal~
+Type         Habilidad
+Flags        0
+Minpos       8
+Rounds       24
+Code         do_steal
+Dammsg       ~
+Wearoff      !Steal!~
+Teachers     0~
+End
+
+#SKILL
+Name         stun~
+Type         Habilidad
+Flags        0
+Target       1
+Minpos       7
+Rounds       8
+Code         do_punch
+Dammsg       stun~
+Wearoff      You regain consciousness.~
+Teachers     32012 32011 412~
+End
+
+#SKILL
+Name         coletazo~
+Type         Habilidad
+Flags        0
+Target       1
+Minpos       7
+Rounds       8
+Code         do_tail
+Dammsg       coletazo~
+Wearoff      !Tail!~
+Teachers     32012 32011 412~
+End
+
+#SKILL
+Name         tecnología 1~
+Type         Habilidad
+Flags        0
+Conc         2
+Rounds       3
+Code         spell_null
+Dammsg       tecnología_básica~
+Wearoff      !tecnología_básica!~
+Difficulty   4
+Teachers     2097~
+End
+
+#SKILL
+Name         tecnología 2~
+Type         Habilidad
+Flags        0
+Conc         3
+Rounds       3
+Code         spell_null
+Dammsg       tecnología_avanzada~
+Wearoff      !tecnología_avanzada!~
+Difficulty   4
+Teachers     2097~
+End
+
+#SKILL
+Name         tecnología 3~
+Type         Habilidad
+Flags        0
+Conc         5
+Rounds       3
+Code         spell_null
+Dammsg       tecnología_experta~
+Wearoff      !tecnología_experta!~
+Difficulty   5
+Teachers     2097~
+End
+
+#SKILL
+Name         lanzar~
+Type         Habilidad
+Flags        0
+Minpos       6
+Rounds       12
+Code         do_throw
+Dammsg       ~
+Wearoff      !throw!~
+Difficulty   6
+Teachers     1269~
+End
+
+#SKILL
+Name         tiendas~
+Type         Habilidad
+Flags        0
+Minpos       8
+Conc         1
+Code         spell_null
+Dammsg       ~
+Wearoff      !tiendas!~
+Difficulty   4
+Teachers     836~
+End
+
+#SKILL
+Name         tomarmuestra~
+Type         Habilidad
+Flags        0
+Minpos       8
+Conc         1
+Rounds       6
+Code         do_tomar_muestra
+Dammsg       tomarmuestra~
+Wearoff      !tomarmuestra!~
+Difficulty   5
+End
+
+#SKILL
+Name         torpedos~
+Type         Habilidad
+Flags        0
+Minpos       5
+Conc         5
+Code         spell_null
+Dammsg       ~
+Wearoff      !done!~
+Difficulty   4
+Teachers     2043~
+End
+
+#SKILL
+Name         torture~
+Type         Habilidad
+Flags        0
+Minpos       8
+Rounds       12
+Code         do_torture
+Dammsg       ~
+Wearoff      !torture!~
+Teachers     32029~
+End
+
+#SKILL
+Name         track~
+Type         Habilidad
+Flags        0
+Minpos       8
+Rounds       14
+Code         do_track
+Dammsg       ~
+Wearoff      !Track!~
+Teachers     32050~
+End
+
+#SKILL
+Name         tractor beams~
+Type         Habilidad
+Flags        0
+Minpos       5
+Code         spell_null
+Dammsg       ~
+Wearoff      !done!~
+Teachers     32007 32008 32040~
+End
+
+#SKILL
+Name         trance~
+Type         Habilidad
+Flags        12582912
+Target       3
+Minpos       5
+Rounds       32
+Code         spell_smaug
+Dammsg       ~
+Wearoff      !TRANCE!~
+Hitvict      You enter a peaceful trance, tuning yourself to the Force.~
+Missvict     You spend several minutes in a deep trance, but fail to find the Force.~
+Teachers     50 605~
+Affect       '' 12 '75' 0
+End
+
+#SKILL
+Name         tregua~
+Type         Habilidad
+Flags        0
+Minpos       5
+Fatigue      15
+Conc         30
+Code         do_tregua
+Dammsg       ~
+Wearoff      !done!~
+Difficulty   4
+Teachers     1620~
+End
+
+#SKILL
+Name         ubicacion~
+Type         Habilidad
+Flags        0
+Minpos       8
+Fatigue      0
+Conc         100
+Code         do_ubicacion
+Dammsg       ~
+Difficulty   5
+Teachers     2097~
+End
+
+#SKILL
+Name         punteria~
+Type         Habilidad
+Flags        0
+Minpos       5
+Fatigue      15
+Conc         30
+Code         do_punteria
+Dammsg       ~
+Wearoff      !punteria!~
+Difficulty   6
+Teachers     1269~
+End
+
+#SKILL
+Name         reparar~
+Type         Habilidad
+Flags        0
+Minpos       5
+Fatigue      0
+Conc         0
+Code         do_repair
+Dammsg       ~
+Wearoff      !reparar!~
+Difficulty   5
+Teachers     2097~
+End
+
+#SKILL
+Name         armas cortas~
+Type         Arma
+Flags        0
+Minpos       7
+Code         spell_null
+Dammsg       ~
+Wearoff      !armas cortas!~
+Difficulty   6
+Teachers     805~
+End
+
+#SKILL
+Name         armas basicas~
+Type         Arma
+Flags        0
+Minpos       7
+Code         spell_null
+Dammsg       ~
+Wearoff      !armas-basicas!~
+Difficulty   6
+Teachers     805~
+End
+
+#SKILL
+Name         lucha cuerpo a cuerpo~
+Type         Arma
+Flags        0
+Minpos       7
+Code         spell_null
+Dammsg       ~
+Wearoff      !cuerpo-a-cuerpo~
+Difficulty   6
+Teachers     1269~
+End
+
+#SKILL
+Name         armas de plasma~
+Type         Arma
+Flags        0
+Minpos       7
+Code         spell_null
+Dammsg       ~
+Wearoff      !armas de plasma!~
+Difficulty   6
+Teachers     1269~
+End
+
+#SKILL
+Name         armas largas~
+Type         Arma
+Flags        0
+Minpos       7
+Code         spell_null
+Dammsg       ~
+Wearoff      !armas largas!~
+Difficulty   6
+Teachers     1269~
+End
+
+#SKILL
+Name         bowcasters~
+Type         Arma
+Flags        0
+Minpos       7
+Code         spell_null
+Dammsg       ~
+Teachers     32012 32011 412~
+End
+
+#SKILL
+Name         flexible arms~
+Type         Arma
+Flags        0
+Minpos       7
+Code         spell_null
+Dammsg       ~
+Wearoff      !Flexible Arms!~
+End
+
+#SKILL
+Name         force pikes~
+Type         Arma
+Flags        0
+Code         spell_null
+Dammsg       ~
+Teachers     32012 32011 412~
+End
+
+#SKILL
+Name         lightsabers~
+Type         Arma
+Flags        0
+Minpos       7
+Code         spell_null
+Dammsg       ~
+Wearoff      !Lightsabers!~
+Teachers     50 605~
+End
+
+#SKILL
+Name         adarian~
+Type         Idioma
+Flags        0
+Code         spell_null
+Dammsg       ~
+Wearoff      !Adarian!~
+End
+
+#SKILL
+Name         chadra-fan~
+Type         Idioma
+Flags        0
+Code         spell_null
+Dammsg       ~
+Wearoff      !!~
+End
+
+#SKILL
+Name         common~
+Type         Idioma
+Flags        0
+Code         spell_null
+Dammsg       ~
+Wearoff      !Common!~
+End
+
+#SKILL
+Name         defel~
+Type         Idioma
+Flags        0
+Code         spell_null
+Dammsg       ~
+Wearoff      !!~
+End
+
+#SKILL
+Name         duinuogwuin~
+Type         Idioma
+Flags        0
+Code         spell_null
+Dammsg       ~
+Wearoff      !!~
+End
+
+#SKILL
+Name         ewok~
+Type         Idioma
+Flags        0
+Code         spell_null
+Dammsg       ~
+Wearoff      !!~
+End
+
+#SKILL
+Name         gamorrean~
+Type         Idioma
+Flags        0
+Code         spell_null
+Dammsg       ~
+Wearoff      !Gamorrean!~
+End
+
+#SKILL
+Name         hutt~
+Type         Idioma
+Flags        0
+Code         spell_null
+Dammsg       ~
+Wearoff      !Hutt!~
+End
+
+#SKILL
+Name         jawa~
+Type         Idioma
+Flags        0
+Code         spell_null
+Dammsg       ~
+Wearoff      !Jawa!~
+End
+
+#SKILL
+Name         mon calamari~
+Type         Idioma
+Flags        0
+Code         spell_null
+Dammsg       ~
+Wearoff      !Mon Calamari!~
+End
+
+#SKILL
+Name         noghri~
+Type         Idioma
+Flags        0
+Code         spell_null
+Dammsg       ~
+Wearoff      !Noghri!~
+End
+
+#SKILL
+Name         quarren~
+Type         Idioma
+Flags        0
+Code         spell_null
+Dammsg       ~
+Wearoff      !!~
+End
+
+#SKILL
+Name         rodian~
+Type         Idioma
+Flags        0
+Code         spell_null
+Dammsg       ~
+Wearoff      !Rodian!~
+End
+
+#SKILL
+Name         trandoshan~
+Type         Idioma
+Flags        0
+Code         spell_null
+Dammsg       ~
+Wearoff      !!~
+End
+
+#SKILL
+Name         twilek~
+Type         Idioma
+Flags        0
+Code         spell_null
+Dammsg       ~
+Wearoff      !Dwarven!~
+End
+
+#SKILL
+Name         verpine~
+Type         Idioma
+Flags        0
+Code         spell_null
+Dammsg       ~
+Wearoff      !!~
+End
+
+#SKILL
+Name         wookiee~
+Type         Idioma
+Flags        0
+Code         spell_null
+Dammsg       ~
+Wearoff      !Wookiee!~
+End
+
+#END

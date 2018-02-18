@@ -1,0 +1,977 @@
+#include <sys/types.h>
+#include <stdio.h>
+#include <string.h>
+#include <time.h>
+#include <ctype.h>
+#include "mud.h"
+
+/*char * const implant_flags[12] = {"cabeza","ojos",
+"orejas","nariz","boca","corazon","pulmones","brazos",
+"manos","piernas","pies","empuñado"};*/
+
+bool can_layer( CHAR_DATA *ch, OBJ_DATA *obj, sh_int wear_loc );
+int get_layerloc(CHAR_DATA *ch, int wearloc);
+
+int get_implantflag( char *flag ) {
+	char buf[MAX_STRING_LENGTH];
+	
+	sprintf(buf, "impl_%s", flag);
+	return get_wflag(buf);
+/*	for ( x = 0; x < ITEM_IMPLANT_NUM; x++ ) {
+		if ( !str_cmp( (flag), implant_flags[x] ) )
+			return x+FIRST_IMPLANT_BIT;
+	}
+	return -1;*/
+}
+
+bool check_implant_no_obj(CHAR_DATA *ch, char *arg2, CHAR_DATA **victim) {
+	if ( arg2[0] == '\0' || !str_cmp(arg2, "")) {
+		send_to_char("¿A quién quieres implantar algo?\n\r", ch); return FALSE; }	
+	if (!IS_SET( ch->in_room->room_flags , ROOM_OPERATING ) ) {
+		send_to_char("Tienes que estar en una sala de operaciones para poder implantar algo.\n\r", ch); return FALSE; }
+	if (ch->fighting) {
+		send_to_char("¡No puedes operar mientras estés luchando!\n\r", ch); return FALSE; }
+
+	if ((*victim = get_char_room ( ch, arg2 )) == NULL) {
+		send_to_char("No puedes encontrarlo.\n\r", ch); return FALSE; }
+	if (*victim == ch) {
+//    if (!IS_NPC(ch) && !ch->pcdata->learned[gsn_selfoperate]) {
+		send_to_char("No puedes operarte a tí mismo.\n\r", ch); return FALSE; }
+//  }
+	if (IS_NPC(*victim)) {
+		send_to_char("No se pueden realizar implantes a no jugadores.\n\r", ch); return FALSE; }
+/*	if (IS_DROID(*victim)) {
+		send_to_char("No se pueden realizar implantes en droides.\n\r", ch); return FALSE; }
+*/
+	if ((*victim)->fighting) {
+		send_to_char("No puedes operarle mientras esté luchando.\n\r", ch); return FALSE; }
+	if (!IS_AFFECTED(*victim, AFF_SLEEP)) {
+		send_to_char("Tendrás que anestesiarlo primero.\n\r", ch); return FALSE; }
+	return TRUE;
+}
+
+bool check_implant(CHAR_DATA *ch, char *arg1, char *arg2, char *arg3, OBJ_DATA **obj, CHAR_DATA **victim) {
+	if (!check_implant_no_obj(ch, arg2, victim))
+		return FALSE;
+	if ( arg1[0] == '\0' || !str_cmp(arg1, "") || arg3[0] == '\0' || !str_cmp(arg3, "")) {
+		send_to_char("¿Implantar qué a quién y donde?\n\r", ch); return FALSE; }
+	*obj = get_obj_list_rev(ch, arg1, ch->last_carrying);
+	if (!*obj) {
+		send_to_char("No tienes este objeto.\n\r", ch); return FALSE; }
+	if (!IS_IMPLANT(*obj)) {
+		send_to_char("Este objeto no se puede implantar\n\r", ch); return FALSE; }
+//	if ( arg2[0] == '\0' || !str_cmp(arg2, "") )
+//		*victim = ch; else
+	if (!CAN_WEAR(*obj, 1ll << get_implantflag(arg3))) {
+		send_to_char("No se puede implantar en esta parte del cuerpo.\n\r", ch); return FALSE; }
+// Ya se comprueba en wear_implant
+//	if (!can_use_object(*victim, *obj)) {
+//		send_to_char("No sabe suficiente para poder usarlo.\n\r", ch); return FALSE; }
+  return TRUE;
+}
+
+// Cantidad de implantes que se pueden llevar en cada una de las posiciones. Usado en wear_implant.
+//int max_implant_pos[ITEM_IMPLANT_NUM] = {3,2,2,1,1,1,1,2,2,2,1,1};
+
+int find_implant_place(CHAR_DATA *ch, OBJ_DATA *obj, sh_int wear_bit) {
+	int firstloc, lastloc, wearloc = -1, wl;
+	
+	if (!_itemwear2wearlocs(ch, wear_bit, &firstloc, &lastloc)) {
+		send_to_char("Tu cuerpo no tiene la parte necesaria para vestir esto.\n\r", ch);
+		return -1;
+	}
+	// comprueba si hay un sitio libre
+	for (wl = firstloc; wl <= lastloc; wl++) {
+		if (!get_eq_char2(ch, wl)) {
+			wearloc = wl;
+			break;
+		}
+	}
+	// comprueba si se pueden usar capas
+	if (firstloc == lastloc && get_layerloc(ch, firstloc) == 1) {
+		if (!can_layer (ch, obj, firstloc)) {
+			send_to_char ("No se ajustará encima de lo que ya llevas puesto.\n\r", ch);
+			return -1;
+		}
+		wearloc = firstloc;
+	}
+	return wearloc;
+}
+
+bool wear_implant( CHAR_DATA *ch, CHAR_DATA *victim, OBJ_DATA *obj, sh_int wear_bit )
+{
+    bool check_size;
+	char buf[MAX_STRING_LENGTH];
+	int place;
+	
+	if (IS_NPC(victim)) {
+		send_to_char("No se puede implantar a no jugadores.\n\r", ch);
+		return FALSE;
+	}
+	if (wear_bit < 0) {
+		bug("wear_implant: no location specified");
+		return FALSE;
+	}
+	if ( !CAN_WEAR(obj, 1ll << wear_bit) || wear_bit < get_implant_first (ch) ) {
+		send_to_char("No se puede implantar en esta parte del cuerpo.\n\r", ch);
+		return FALSE;
+	}
+    check_size = FALSE;
+	switch (victim->race) {
+	default:
+	case RACE_HUMAN:            
+		if ( !IS_OBJ_STAT(obj, ITEM_HUMAN_SIZE) )
+			check_size = TRUE;
+	break;
+	}
+	separate_obj( obj );
+	if ( check_size ) { 
+		if ( IS_OBJ_STAT(obj, ITEM_HUTT_SIZE) ) {
+			act( AT_MAGIC, "Este objeto es demasiado grande.", ch, NULL, NULL, TO_CHAR );
+			return FALSE;
+		}
+		if ( IS_OBJ_STAT(obj, ITEM_LARGE_SIZE) || IS_OBJ_STAT(obj, ITEM_HUMAN_SIZE) ) {
+			act( AT_MAGIC, "Este objeto no es de su talla.", ch, NULL, NULL, TO_CHAR );
+			return FALSE;
+		}
+		if ( IS_OBJ_STAT(obj, ITEM_SMALL_SIZE) ) {
+			act( AT_MAGIC, "Este objeto es demasiado pequeño.", ch, NULL, NULL, TO_CHAR );
+			return FALSE;
+		}
+	}
+	if ( !can_use_object( victim, obj )) {
+		sprintf( buf, "Tiene que ser nivel %d%s%s para usar este objeto.\n\r", obj->level,
+				obj->ability!=ABILITY_NONE? " en " : "",
+				obj->ability!=ABILITY_NONE? ability_name[obj->ability]:"" );
+		send_to_char( buf, ch );
+		return FALSE;
+	}
+
+	place = find_implant_place(victim, obj, wear_bit);
+	if (place != -1) {
+		if ( !oprog_use_trigger( victim, obj, NULL, NULL ) ) {
+			if ( !obj->action_desc || obj->action_desc[0]=='\0' ) {  
+				act( AT_ACTION, wear_table[UMIN(victim->race,MAX_RACE)].wear_action_room[place], ch, obj, victim, TO_ROOM );
+				act( AT_ACTION, wear_table[UMIN(victim->race,MAX_RACE)].wear_action_ch[place],  ch, obj, victim, TO_CHAR );
+			} else
+				actiondesc( ch, obj );
+		}
+		obj_from_char( obj );
+		obj = obj_to_char( obj, victim );
+		equip_char( victim, obj, place );
+		oprog_wear_trigger( victim, obj );
+		return TRUE;
+	}
+	act( AT_ACTION, "$N no puede llevar más implantes en esta parte del cuerpo de los que ya tiene.", ch, NULL, victim, TO_CHAR);
+	return FALSE;
+}
+
+int find_gsn(CHAR_DATA *ch, OBJ_DATA *obj, sh_int wear_bit) {
+	int dif = 0;
+	int64_t item_place = 1ll << wear_bit;
+	if (get_trust_ability (ch, SCIENCE_ABILITY)<obj->level)
+		dif++;
+	if (IS_OBJ_STAT(obj, ITEM_DIFFICULT_IMPLANT))
+		dif++;
+	if (item_place == ITEM_IMPLANT_HEAD || item_place == ITEM_IMPLANT_EYES ||
+		item_place == ITEM_IMPLANT_HEART || item_place == ITEM_IMPLANT_LUNGS)
+		dif++;
+	if (dif == 0) return gsn_easy_implant;
+	if (dif == 1) return gsn_medium_implant;
+	return gsn_difficult_implant;
+}
+
+void fail_implant(CHAR_DATA *ch, CHAR_DATA *victim, OBJ_DATA *obj, int gsn, sh_int wear_bit) {
+	AFFECT_DATA af;
+	int dam;
+	sh_int *stat;
+	int n = number_range(1,10);
+	
+	// al menos tiene que estar definido el objeto o la víctima
+	if (!obj && !victim) return;
+	
+	if (gsn == gsn_easy_implant) {
+		if (n<=4) n=1; else if (n<=7) n=2; else if (n<=9) n=3; else n=4;
+	} else if (gsn == gsn_medium_implant) {
+		if (n<=1) n=1; else if (n<=3) n=2; else if (n<=4) n=3; else if (n<=7) n=4; else if (n<=8) n=5;
+		else if (n<=9) n=6; else n=7;
+	}
+	if (number_percent() < (IS_NPC(ch) ? 80 : ch->pcdata->learned[gsn]))
+		n = UMAX(1, n-3);
+	
+	// aseguramos que no hacemos referencia al objeto si este no existe
+	if (!obj) {
+		if (n==3) n=4;
+		if (n==6 || n==7) n=8;
+	}
+	// aseguramos que no hacemos referencia a la víctima si no existe
+	if (!victim) {
+		if (n<=3) n=3;
+		else n=6;
+	}
+	
+	switch (n) {
+		case 1:
+		// daño menor
+			dam = number_range(1,20);
+			damage(victim, victim, dam, TYPE_UNDEFINED);
+			send_to_char("Afortunadamente no has causado daños mayores.\n\r", ch);	
+		break;
+		case 2:
+		// hemorragia pequeña
+			act(AT_BLOOD, "¡Has causado una pequeña hemorragia a $N!", ch, NULL, victim, TO_CHAR);
+			act( AT_BLOOD, "$N empieza a perder sangre.", ch, NULL, victim, TO_ROOM );
+			victim->mental_state = URANGE( 20, ch->mental_state + number_range(1,5), 100 );
+			af.type      = gsn_hemorragia;
+			af.duration  = UMAX(1, number_range(20, 80) - get_curr_pr(victim) * 3);
+			af.location  = APPLY_NONE;
+			af.modifier  = number_range(5,15);
+			af.bitvector = AFF_HEMORRAGIA;
+			af.sn = -1;
+			affect_join( victim, &af );
+		break;
+		case 3:
+		// daña objeto
+			act(AT_SKILL, "Parece que has dañado $p en el intento...", ch, obj, NULL, TO_CHAR);
+			damage_obj (obj);
+		break;
+		case 4:
+		// hemorragia mediana
+			act(AT_BLOOD, "¡Has causado una hemorragia a $N!", ch, NULL, victim, TO_CHAR);
+			act( AT_BLOOD, "$N empieza a perder sangre.", ch, NULL, victim, TO_ROOM );
+			victim->mental_state = URANGE( 20, ch->mental_state + number_range(2,10), 100 );
+			af.type      = gsn_hemorragia;
+			af.duration  = UMAX(1, number_range(50,150) - get_curr_pr(victim) * 3);
+			af.location  = APPLY_NONE;
+			af.modifier  = number_range(10, 30);
+			af.bitvector = AFF_HEMORRAGIA;
+			af.sn = -1;
+			affect_join (victim, &af);
+		break;
+		case 5:
+		// disminución temporal de alguna característica
+			act(AT_BLOOD, "¡ESO no tenías que cortarlo! Con suerte $N se recuperará con el tiempo.", ch, NULL, victim, TO_CHAR);
+			act( AT_BLOOD, "$n está haciendo chapuzas en el cuerpo de $N.", ch, NULL, victim, TO_ROOM );
+			victim->mental_state = URANGE( 20, ch->mental_state + number_range(5,15), 100 );
+			af.type      = -2;
+			af.duration  = UMAX(1, number_range(50, 150) - get_curr_pr(victim));
+			switch (1ll << wear_bit) {
+				case ITEM_IMPLANT_HEAD:
+				case ITEM_IMPLANT_EYES:
+				case ITEM_IMPLANT_EARS:
+				case ITEM_IMPLANT_NOSE:
+				case ITEM_IMPLANT_MOUTH:
+					switch (number_range(1,4)) {
+						case 1: af.location = APPLY_MS; break;
+						case 2: af.location = APPLY_MA; break;
+						case 3: af.location = APPLY_MR; break;
+						case 4: af.location = APPLY_MP; break;
+					}
+					break;
+				case ITEM_IMPLANT_HEART:
+					af.location = APPLY_PR;
+					break;
+				case ITEM_IMPLANT_LUNGS:
+					af.location = APPLY_PP;
+					break;
+				case ITEM_IMPLANT_ARMS:
+					af.location = APPLY_PA;
+				case ITEM_IMPLANT_LEGS:
+					af.location = APPLY_PS;
+					break;
+				case ITEM_IMPLANT_HANDS:
+					af.location = APPLY_PS;
+					break;
+				case ITEM_IMPLANT_FEET:
+					af.location = APPLY_PA;
+					break;
+				case ITEM_IMPLANT_TELEPATHY:
+					af.location = APPLY_MS;
+					break;
+			}
+			af.modifier  = number_range(-6, -1);
+			af.bitvector = AFF_NONE;
+			af.sn = -1;
+			affect_to_char (victim, &af);
+			//affect_join( victim, &af );
+			break;
+		case 6:
+		// rompe objeto
+			act(AT_SKILL, "Has forzado demasiado $p y lo has roto completamente...", ch, obj, NULL, TO_CHAR);
+			separate_obj( obj );
+			oprog_damage_trigger(ch, obj);
+			if ( !obj_extracted(obj) ) {
+				make_scraps( obj );
+			}
+			break;
+		case 7:
+		// rompe objeto y lo implanta
+			act(AT_SKILL, "Conectas el implante al cuerpo biológico de $N.", ch, NULL, victim, TO_CHAR);
+			separate_obj( obj );
+			oprog_damage_trigger(ch, obj);
+			if ( !obj_extracted(obj) ) {
+				wear_implant(ch, victim, obj, wear_bit);
+				make_scraps( obj );
+			}
+			break;
+		case 8:
+		// gran hemorragia
+			act(AT_BLOOD, "¡Has causado una fuerte hemorragia a $N!", ch, NULL, victim, TO_CHAR);
+			act( AT_BLOOD, "$N empieza a perder sangre.", ch, NULL, victim, TO_ROOM );
+			victim->mental_state = URANGE( 20, ch->mental_state + number_range(10,20), 100 );
+			af.type      = gsn_hemorragia;
+			af.duration  = UMAX(1, number_range(150,250) - get_curr_pr(victim) * 3);
+			af.location  = APPLY_NONE;
+			af.modifier  = number_range(30, 50);
+			af.bitvector = AFF_HEMORRAGIA;
+			af.sn = -1;
+			affect_join (victim, &af);
+			break;
+		case 9:
+		// pérdida de puntos de vida máximos
+			act(AT_BLOOD, "¡Has dañado el organismo de $N definitivamente!", ch, NULL, victim, TO_CHAR);
+			dam = number_range (1, 20);
+			victim->hit -= dam;
+			victim->max_hit -= dam;
+		break;
+		case 10:
+		// pérdida de características
+			act(AT_BLOOD, "¡Has dañado el organismo de $N definitivamente!", ch, NULL, victim, TO_CHAR);
+			switch (1ll << wear_bit) {
+				case ITEM_IMPLANT_HEAD:
+				case ITEM_IMPLANT_EYES:
+				case ITEM_IMPLANT_EARS:
+				case ITEM_IMPLANT_NOSE:
+				case ITEM_IMPLANT_MOUTH:
+					switch (number_range(1,4)) {
+						case 1: stat = &(victim->perm_ms); break;
+						case 2: stat = &(victim->perm_ma); break;
+						case 3: stat = &(victim->perm_mr); break;
+						case 4: stat = &(victim->perm_mp); break;
+					}
+					break;
+				case ITEM_IMPLANT_HEART:
+					stat = &(victim->perm_pr);
+					break;
+				case ITEM_IMPLANT_LUNGS:
+					stat = &(victim->perm_pp);
+					break;
+				case ITEM_IMPLANT_ARMS:
+				case ITEM_IMPLANT_LEGS:
+					stat = &(victim->perm_ps);
+					break;
+				case ITEM_IMPLANT_HANDS:
+				case ITEM_IMPLANT_FEET:
+					stat = &(victim->perm_pa);
+					break;
+				case ITEM_IMPLANT_TELEPATHY:
+					stat = &(victim->perm_ms);
+					break;
+			}
+			(*stat)--;
+			break;
+	}
+}
+
+void do_easy_implant(CHAR_DATA *ch, const char *argument, sh_int wear_bit) {
+	char arg1[MAX_INPUT_LENGTH], arg2[MAX_INPUT_LENGTH], arg3[MAX_INPUT_LENGTH];
+	OBJ_DATA *obj = NULL;
+	CHAR_DATA *victim = NULL;
+	AFFECT_DATA af;
+	bool failed;
+	switch (ch->substate) {
+		case 1:
+			if ( !ch->dest_buf || !ch->dest_buf_2 || !ch->dest_buf_3) {
+				send_to_char( "&R¡Tu operación ha sido interrumpida!\n\r", ch );
+				bug( "do_easy_implant: ch->dest_buf o ch->dest_buf_2 o ch->dest_buf_3 NULL!", 0 );
+				return;
+			}
+			strcpy(arg1, ch->dest_buf);
+			strcpy(arg2, ch->dest_buf_2);
+			strcpy(arg3, ch->dest_buf_3);
+			DISPOSE(ch->dest_buf);
+			DISPOSE(ch->dest_buf_2);
+			DISPOSE(ch->dest_buf_3);
+			ch->substate = SUB_NONE;
+			break;
+		case SUB_TIMER_DO_ABORT:
+			strcpy(arg1, ch->dest_buf);
+			strcpy(arg2, ch->dest_buf_2);
+			strcpy(arg3, ch->dest_buf_3);
+			DISPOSE(ch->dest_buf);
+			DISPOSE(ch->dest_buf_2);
+			DISPOSE(ch->dest_buf_3);
+			ch->substate = SUB_NONE;
+			send_to_char( "&RDejas de hacer lo que estabas haciendo.\n\r", ch );
+			check_implant(ch, arg1, arg2, arg3, &obj, &victim);
+			fail_implant (ch, victim, obj, gsn_easy_implant, get_implantflag (arg3));
+			return;
+	}
+	failed = number_percent() >= (IS_NPC(ch) ? 80 : ch->pcdata->learned[gsn_easy_implant]);
+	if ( check_implant(ch, arg1, arg2, arg3, &obj, &victim) && !failed ) {
+		if (wear_implant(ch, victim, obj, get_implantflag(arg3))) {
+			act( AT_PLAIN, "Conectas el implante al cuerpo biológico de $N.", ch, NULL, victim, TO_CHAR );
+			act( AT_PLAIN, "$n realiza varias operaciones en el cuerpo de $N.", ch, NULL, victim, TO_ROOM );
+			// perdida de 2 puntos de stat segun implante
+			af.type      = -2;
+			af.duration  = (obj->level+1)*10;
+			switch (1ll << wear_bit) {
+				case ITEM_IMPLANT_ARMS:
+				case ITEM_IMPLANT_LEGS:
+					af.location = APPLY_PS;
+					break;
+				case ITEM_IMPLANT_HANDS:
+				case ITEM_IMPLANT_FEET:
+					af.location = APPLY_PA;
+					break;
+			}
+			af.modifier  = -1;
+			af.bitvector = AFF_NONE;
+			af.sn = -1;
+			affect_to_char( victim, &af );
+			// perdida de mitad de hp actual
+			victim->hit = victim->hit/2;
+			learn_from_success (ch, gsn_easy_implant);
+			gain_skill_exp(ch, gsn_easy_implant);
+		}
+	} else {
+		act(AT_PLAIN, "No consigues conectar correctamente el implante al cuerpo de $N...", ch, NULL, victim, TO_CHAR);
+		fail_implant(ch, victim, obj, gsn_easy_implant, get_implantflag (arg3));
+		if (failed) {
+			learn_from_failure( ch, gsn_easy_implant );
+		}
+	}
+}
+
+void do_implant(CHAR_DATA *ch, const char *argument) {
+	char arg1[MAX_INPUT_LENGTH], arg2[MAX_INPUT_LENGTH], arg3[MAX_INPUT_LENGTH];
+	OBJ_DATA *obj;
+	CHAR_DATA *victim;
+	bool failed;
+	int gsn;
+
+	// switch (ch->substate) {
+	// 	default:
+			argument = one_argument( argument, arg1 );
+			argument = one_argument( argument, arg2 );
+			argument = one_argument( argument, arg3 );
+			if (!check_implant(ch, arg1, arg2, arg3, &obj, &victim))
+				return;
+			gsn = find_gsn(ch, obj, get_implantflag(arg3));
+			if ( !IS_NPC(ch) && !ch->pcdata->learned[gsn] ) {
+				send_to_char("Implantar esto es demasiado difícil para tí.\n\r", ch );
+				return;
+			}
+			ch_printf(ch, "Consideras que este implante tiene una dificultad %s.\n\r",
+				gsn == gsn_easy_implant? "baja" : (gsn == gsn_medium_implant? "media": "alta"));
+			ch->dest_buf = str_dup( arg1 );
+			ch->dest_buf_2 = str_dup( victim->name );
+			ch->dest_buf_3 = str_dup(arg3);
+			if (gsn == gsn_easy_implant) {
+				add_timer( ch, TIMER_DO_FUN, UMIN(skill_table[gsn_easy_implant]->beats, 3), do_easy_implant, 1 );
+				act (AT_PLAIN, "Con cuidado intentas introducir $p en el cuerpo de $N.", ch, obj, victim, TO_CHAR);
+				act (AT_PLAIN, "$n intenta introducir $p en el cuerpo de $N", ch, obj, victim, TO_ROOM);
+			} else if (gsn == gsn_medium_implant) {
+			} else if (gsn == gsn_difficult_implant) {
+				act( AT_PLAIN, "Coges un bisturí y empiezas a operar a $N.", ch, NULL, victim, TO_CHAR );
+				act( AT_PLAIN, "$n ha empezado a operar a $N.", ch, NULL, victim, TO_ROOM );
+			} else {
+				bug("do_implant: invalid gsn %d", gsn);
+			}
+			return;
+	// 	case SUB_TIMER_WAIT:
+	// 		if ( !ch->dest_buf || !ch->dest_buf_2 || !ch->dest_buf_3) {
+	// 			send_to_char( "&R¡Tu operación ha sido interrumpida!\n\r", ch );
+	// 			bug( "do_implant: ch->dest_buf o ch->dest_buf_2 NULL!", 0 );
+	// 			return;
+	// 		}
+	// 		strcpy( arg1, ch->dest_buf );
+	// 		strcpy( arg2, ch->dest_buf_2 );
+	// 		strcpy( arg3, ch->dest_buf_3 );
+	// 		DISPOSE( ch->dest_buf );
+	// 		DISPOSE( ch->dest_buf_2);
+	// 		DISPOSE( ch->dest_buf_3);
+	// 		ch->substate = SUB_NONE;
+	// 		failed = number_percent() >= (IS_NPC(ch) ? 80 : ch->pcdata->learned[gsn_operate]);
+	// 		if ( check_implant_no_obj(ch, arg2, &victim) && !failed ) {
+	// 			add_timer( ch, TIMER_DO_FUN, UMIN(skill_table[gsn_easy_implant]->beats, 3), do_implant, SUB_TIMER_WAIT2 );
+	// 			ch->dest_buf = str_dup( arg1 );
+	// 			ch->dest_buf_2 = str_dup( victim->name );
+	// 			ch->dest_buf_3 = str_dup(arg3);
+	// 			act( AT_PLAIN, "Has conseguido abrir el cuerpo de $N sin causarle daños.", ch, NULL, victim, TO_CHAR );
+	// 			act( AT_PLAIN, "$n tiene el cuerpo de $N abierto delante suyo.", ch, NULL, victim, TO_ROOM );
+	// 			learn_from_success (ch, gsn_operate);
+	// 			gain_skill_exp(ch, gsn_operate);
+	// 		} else {
+	// 			act(AT_PLAIN, "No has conseguido abrir correctamente el cuerpo de $N...", ch, NULL, victim, TO_CHAR);
+	// 			damage(victim, victim, 10, TYPE_UNDEFINED);
+	// 			if (number_percent() < (IS_NPC(ch) ? 80 : ch->pcdata->learned[gsn_operate])) {
+	// 				send_to_char("Afortunadamente no has causado daños mayores.\n\r", ch);
+	// 			} else {
+	// 				act(AT_BLOOD, "¡Has causado una hemorragia a $N!", ch, NULL, victim, TO_CHAR);
+	// 				act( AT_BLOOD, "$N empieza a perder sangre.", ch, NULL, victim, TO_ROOM );
+	// 				AFFECT_DATA af;
+	// 				victim->mental_state = URANGE( 20, ch->mental_state + 5, 100 );
+	// 				af.type      = -1;
+	// 				af.duration  = UMAX(1, 100 - victim->mod_pr * 3);
+	// 				af.location  = APPLY_HEMORRAGIA;
+	// 				af.modifier  = 20;
+	// 				af.bitvector = AFF_HEMORRAGIA;
+	// 				affect_join( victim, &af );
+	// 			}
+	// 			if (failed)
+	// 				learn_from_failure( ch, gsn_operate );
+	// 		}
+	// 		return;
+	// 	case SUB_TIMER_WAIT2:
+	// 		if ( !ch->dest_buf || !ch->dest_buf_2 || !ch->dest_buf_3) {
+	// 			send_to_char( "&R¡Tu operación ha sido interrumpida!\n\r", ch );
+	// 			bug( "do_implant: ch->dest_buf o ch->dest_buf_2 NULL!", 0 );
+	// 			return;
+	// 		}
+	// 		strcpy( arg1, ch->dest_buf );
+	// 		strcpy( arg2, ch->dest_buf_2 );
+	// 		strcpy( arg3, ch->dest_buf_3 );
+	// 		DISPOSE( ch->dest_buf );
+	// 		DISPOSE( ch->dest_buf_2);
+	// 		DISPOSE( ch->dest_buf_3);
+	// 		ch->substate = SUB_NONE;
+	// 		failed = number_percent() >= (IS_NPC(ch) ? 80 : ch->pcdata->learned[gsn_easy_implant]);
+	// 		if ( check_implant(ch, arg1, arg2, arg3, &obj, &victim) && !failed ) {
+	// 			add_timer( ch, TIMER_DO_FUN, UMIN(skill_table[gsn_easy_implant]->beats, 3), do_implant, SUB_TIMER_WAIT3 );
+	// 			ch->dest_buf = str_dup( arg1 );
+	// 			ch->dest_buf_2 = str_dup( victim->name );
+	// 			ch->dest_buf_3 = str_dup(arg3);
+	// 			act( AT_PLAIN, "Conectas el implante al cuerpo biológico de $N.", ch, NULL, victim, TO_CHAR );
+	// 			act( AT_PLAIN, "$n realiza varias operaciones con el cuerpo abierto de $N.", ch, NULL, victim, TO_ROOM );
+	// 			wear_implant(ch, victim, obj, get_implantflag(arg3));
+	// 			learn_from_success (ch, gsn_easy_implant);
+	// 			gain_skill_exp(ch, gsn_easy_implant);
+	// 		} else {
+	// 			act(AT_PLAIN, "No consigues conectar correctamente el implante al cuerpo de $N...", ch, NULL, victim, TO_CHAR);
+	// 			damage(victim, victim, 10, TYPE_UNDEFINED);
+	// 			if (number_percent() < (IS_NPC(ch) ? 80 : ch->pcdata->learned[gsn_easy_implant])) {
+	// 				send_to_char("Afortunadamente no has causado daños mayores.\n\r", ch);	
+	// 			} else {
+	// 				act(AT_BLOOD, "¡Has causado una hemorragia a $N!", ch, NULL, victim, TO_CHAR);
+	// 				act( AT_BLOOD, "$N empieza a perder sangre.", ch, NULL, victim, TO_ROOM );
+	// 				AFFECT_DATA af;
+	// 				victim->mental_state = URANGE( 20, ch->mental_state + 5, 100 );
+	// 				af.type      = -1;
+	// 				af.duration  = UMAX(1, 100 - victim->mod_pr * 3);
+	// 				af.location  = APPLY_HEMORRAGIA;
+	// 				af.modifier  = 20;
+	// 				af.bitvector = AFF_HEMORRAGIA;
+	// 				af.sn = -1;
+	// 				affect_join( victim, &af );
+	// 			}
+	// 			if (failed)
+	// 				learn_from_failure( ch, gsn_easy_implant );
+	// 		}
+	// 		return;
+	// 	case SUB_TIMER_WAIT3:
+	// 		if ( !ch->dest_buf || !ch->dest_buf_2 || !ch->dest_buf_3) {
+	// 			send_to_char( "&R¡Tu operación ha sido interrumpida!\n\r", ch );
+	// 			bug( "do_implant: ch->dest_buf o ch->dest_buf_2 NULL!", 0 );
+	// 			return;
+	// 		}
+	// 		strcpy( arg1, ch->dest_buf );
+	// 		strcpy( arg2, ch->dest_buf_2 );
+	// 		strcpy( arg3, ch->dest_buf_3 );
+	// 		DISPOSE( ch->dest_buf );
+	// 		DISPOSE( ch->dest_buf_2);
+	// 		DISPOSE( ch->dest_buf_3);
+	// 		ch->substate = SUB_NONE;
+	// 		failed = number_percent() >= (IS_NPC(ch) ? 80 : ch->pcdata->learned[gsn_operate]);
+	// 		if ( check_implant_no_obj(ch, arg2, &victim) && !failed ) {
+	// 			add_timer( ch, TIMER_DO_FUN, UMIN(skill_table[gsn_easy_implant]->beats, 3), do_implant, 1 );
+	// 			ch->dest_buf = str_dup( arg1 );
+	// 			ch->dest_buf_2 = str_dup( victim->name );
+	// 			ch->dest_buf_3 = str_dup(arg3);
+	// 			act( AT_PLAIN, "Has conseguido coser la herida de $N sin causarle daños.", ch, NULL, victim, TO_CHAR );
+	// 			act( AT_PLAIN, "$n cose el cuerpo de $N.", ch, NULL, victim, TO_ROOM );
+	// 			learn_from_success (ch, gsn_operate);
+	// 			gain_skill_exp(ch, gsn_operate);
+	// 		} else {
+	// 			act(AT_PLAIN, "No has conseguido coser correctamente el cuerpo de $N...", ch, NULL, victim, TO_CHAR);
+	// 			damage(victim, victim, 10, TYPE_UNDEFINED);
+	// 			if (number_percent() < (IS_NPC(ch) ? 80 : ch->pcdata->learned[gsn_operate])) {
+	// 				send_to_char("Afortunadamente no has causado daños mayores.\n\r", ch);
+	// 			} else {
+	// 				act(AT_BLOOD, "¡Has causado una hemorragia a $N!", ch, NULL, victim, TO_CHAR);
+	// 				act( AT_BLOOD, "$N empieza a perder sangre.", ch, NULL, victim, TO_ROOM );
+	// 				AFFECT_DATA af;
+	// 				victim->mental_state = URANGE( 20, ch->mental_state + 5, 100 );
+	// 				af.type      = -1;
+	// 				af.duration  = UMAX(1, 100 - victim->mod_pr * 3);
+	// 				af.location  = APPLY_HEMORRAGIA;
+	// 				af.modifier  = 20;
+	// 				af.bitvector = AFF_HEMORRAGIA;
+	// 				af.sn = -1;
+	// 				affect_join( victim, &af );
+	// 			}
+	// 			if (failed)
+	// 				learn_from_failure( ch, gsn_operate );
+	// 		}
+	// 		return;
+	// 	case 1:
+	// 		if ( !ch->dest_buf || !ch->dest_buf_2) {
+	// 			send_to_char( "&R¡Tu operación ha sido interrumpida!\n\r", ch );
+	// 			bug( "do_implant: ch->dest_buf o ch->dest_buf_2 NULL!", 0 );
+	// 			return;
+	// 		}
+	// 		strcpy( arg1, ch->dest_buf );
+	// 		strcpy( arg2, ch->dest_buf_2 );
+	// 		strcpy( arg3, ch->dest_buf_3 );
+	// 		DISPOSE( ch->dest_buf );
+	// 		DISPOSE( ch->dest_buf_2);
+	// 		DISPOSE( ch->dest_buf_3);
+	// 		ch->substate = SUB_NONE;
+	// 		send_to_char("Has terminado la operación.\n\r", ch);
+	// 		return;
+	// 	case SUB_TIMER_DO_ABORT:
+	// 		strcpy( arg1, ch->dest_buf );
+	// 		strcpy( arg2, ch->dest_buf_2 );
+	// 		strcpy( arg3, ch->dest_buf_3 );
+	// 		DISPOSE( ch->dest_buf );
+	// 		DISPOSE( ch->dest_buf_2);
+	// 		DISPOSE( ch->dest_buf_3);
+	// 		ch->substate = SUB_NONE;
+	// 		check_implant_no_obj(ch, arg2, &victim);
+	// 		if (victim) {
+	// 			act(AT_BLOOD, "¡Has causado una hemorragia a $N!", ch, NULL, victim, TO_CHAR);
+	// 			act( AT_BLOOD, "$N empieza a perder sangre.", ch, NULL, victim, TO_ROOM );
+	// 			damage(victim, victim, 10, TYPE_UNDEFINED);
+	// 			AFFECT_DATA af;
+	// 			victim->mental_state = URANGE( 20, ch->mental_state + 5, 100 );
+	// 			af.type      = -1;
+	// 			af.duration  = UMAX(1, 100 - victim->mod_pr * 3);
+	// 			af.location  = APPLY_HEMORRAGIA;
+	// 			af.modifier  = 20;
+	// 			af.bitvector = AFF_HEMORRAGIA;
+	// 			af.sn = -1;
+	// 			affect_join( victim, &af );
+	// 		}
+	// 		break;
+	// }
+}
+
+bool check_remove(CHAR_DATA *ch, char *arg1, char *arg2, OBJ_DATA **obj, CHAR_DATA **victim) {
+	if ( arg1[0] == '\0' || !str_cmp(arg1, "") || arg2[0] == '\0' || !str_cmp(arg2, "")) {
+		send_to_char("¿Qué implante y a quién quieres retirarselo?\n\r", ch); return FALSE; }	
+	if (!IS_SET( ch->in_room->room_flags , ROOM_OPERATING ) ) {
+		send_to_char("Tienes que estar en una sala de operaciones para poder implantar algo.\n\r", ch); return FALSE; }
+	if (ch->fighting) {
+		send_to_char("¡No puedes operar mientras estés luchando!\n\r", ch); return FALSE; }
+
+	if ((*victim = get_char_room ( ch, arg2 )) == NULL) {
+		send_to_char("No puedes encontrarlo.\n\r", ch); return FALSE; }
+	if (*victim == ch) {
+//    if (!IS_NPC(ch) && !ch->pcdata->learned[gsn_selfoperate]) {
+		send_to_char("No puedes operarte a tí mismo.\n\r", ch); return FALSE; }
+//  }
+	if (IS_NPC(*victim)) {
+		send_to_char("No se pueden retirar implantes a no jugadores.\n\r", ch); return FALSE; }
+	if (IS_DROID(*victim)) {
+		send_to_char("No se pueden retirar implantes a droides.\n\r", ch); return FALSE; }
+	if ((*victim)->fighting) {
+		send_to_char("No puedes operarle mientras esté luchando.\n\r", ch); return FALSE; }
+	if (!IS_AFFECTED(*victim, AFF_SLEEP)) {
+		send_to_char("Tendrás que anestesiarlo primero.\n\r", ch); return FALSE; }
+	if ( ms_find_obj(ch) ) return FALSE;
+	*obj = get_obj_wear( *victim, arg1 );
+	if (!*obj || !IS_OBJ_MAGIC(*obj, ITEM_IMPLANTED) || !can_see_obj (ch, *obj)) {
+		act(AT_SKILL, "No lo encuentras.", ch, NULL, NULL, TO_CHAR); return FALSE; }
+	if (IS_OBJ_STAT(*obj, ITEM_NOREMOVE)) {
+		act(AT_SKILL,"$p no se puede quitar sin causar la muerte a $N", ch, obj, NULL, TO_CHAR); return FALSE; }
+//	if ( arg2[0] == '\0' || !str_cmp(arg2, "") )
+//		*victim = ch; else
+	return TRUE;
+}
+
+int find_remove_gsn(CHAR_DATA *ch, OBJ_DATA *obj) {
+	int dif = 0;
+	int item_place = wearloc2itemwear(ch, obj->wear_loc);
+	if (get_trust_ability (ch, SCIENCE_ABILITY)<obj->level)
+		dif++;
+	if (IS_OBJ_STAT(obj, ITEM_DIFFICULT_IMPLANT))
+		dif++;
+	if (item_place <= ITEM_IMPLANT_EYES || item_place == ITEM_IMPLANT_HEART || item_place == ITEM_IMPLANT_LUNGS)
+		dif++;
+	if (dif == 0) return gsn_easy_remove_implant;
+	if (dif == 1) return gsn_medium_remove_implant;
+	return gsn_difficult_remove_implant;
+}
+
+void fail_remove(CHAR_DATA *ch, CHAR_DATA *victim, OBJ_DATA *obj, int gsn) {
+	AFFECT_DATA af;
+	int dam;
+	sh_int *stat;
+	int n = number_range(1,10);
+	
+	// al menos tiene que estar definido el objeto o la víctima
+	if (!obj && !victim) return;
+	
+	if (gsn == gsn_easy_remove_implant) {
+		if (n<=4) n=1; else if (n<=7) n=2; else if (n<=9) n=3; else n=4;
+	} else if (gsn == gsn_medium_remove_implant) {
+		if (n<=1) n=1; else if (n<=3) n=2; else if (n<=4) n=3; else if (n<=7) n=4; else if (n<=8) n=5;
+		else if (n<=9) n=6; else n=7;
+	}
+	if (number_percent() < (IS_NPC(ch) ? 80 : ch->pcdata->learned[gsn]))
+		n = UMAX(1, n-3);
+	
+	// aseguramos que no hacemos referencia al objeto si este no existe
+	if (!obj) {
+		if (n==3) n=4;
+		if (n==6 || n==7) n=8;
+	}
+	// aseguramos que no hacemos referencia a la víctima si no existe
+	if (!victim) {
+		if (n<=3) n=3;
+		else n=7;
+	}
+	bug("%d", n);
+	switch (n) {
+		case 1:
+		// daño menor
+			dam = number_range(1,20);
+			damage(victim, victim, dam, TYPE_UNDEFINED);
+			send_to_char("Afortunadamente no has causado daños mayores.\n\r", ch);	
+		break;
+		case 2:
+		// hemorragia pequeña
+			act(AT_BLOOD, "¡Has causado una pequeña hemorragia a $N!", ch, NULL, victim, TO_CHAR);
+			act( AT_BLOOD, "$N empieza a perder sangre.", ch, NULL, victim, TO_ROOM );
+			victim->mental_state = URANGE( 20, ch->mental_state + number_range(1,5), 100 );
+			af.type      = gsn_hemorragia;
+			af.duration  = UMAX(1, number_range(20, 80) - get_curr_pr(victim) * 3);
+			af.location  = APPLY_NONE;
+			af.modifier  = number_range(5,15);
+			af.bitvector = AFF_HEMORRAGIA;
+			af.sn = -1;
+			affect_join( victim, &af );
+		break;
+		case 3:
+		// daña objeto
+			damage_obj (obj);
+		break;
+		case 4:
+		// hemorragia mediana
+			act(AT_BLOOD, "¡Has causado una hemorragia a $N!", ch, NULL, victim, TO_CHAR);
+			act( AT_BLOOD, "$N empieza a perder sangre.", ch, NULL, victim, TO_ROOM );
+			victim->mental_state = URANGE( 20, ch->mental_state + number_range(2,10), 100 );
+			af.type      = gsn_hemorragia;
+			af.duration  = UMAX(1, number_range(50,150) - get_curr_pr(victim) * 3);
+			af.location  = APPLY_NONE;
+			af.modifier  = number_range(10, 30);
+			af.bitvector = AFF_HEMORRAGIA;
+			af.sn = -1;
+			affect_join( victim, &af );
+		break;
+		case 5:
+		// disminución temporal de alguna característica
+			act(AT_BLOOD, "¡ESO no tenías que cortarlo! Con suerte $N se recuperará con el tiempo.", ch, NULL, victim, TO_CHAR);
+			act( AT_BLOOD, "$n está haciendo chapuzas en el cuerpo de $N.", ch, NULL, victim, TO_ROOM );
+			victim->mental_state = URANGE( 20, ch->mental_state + number_range(5,15), 100 );
+			af.type      = -1;
+			af.duration  = UMAX(1, number_range(50, 150) - get_curr_pr(victim));
+			switch (1ll << wearloc2itemwear(victim, obj->wear_loc)) {
+				case ITEM_IMPLANT_HEAD:
+				case ITEM_IMPLANT_EYES:
+				case ITEM_IMPLANT_EARS:
+				case ITEM_IMPLANT_NOSE:
+				case ITEM_IMPLANT_MOUTH:
+					switch (number_range(1,4)) {
+						case 1: af.location = APPLY_MS; break;
+						case 2: af.location = APPLY_MA; break;
+						case 3: af.location = APPLY_MR; break;
+						case 4: af.location = APPLY_MP; break;
+					}
+					break;
+				case ITEM_IMPLANT_HEART:
+					af.location = APPLY_PR;
+					break;
+				case ITEM_IMPLANT_LUNGS:
+					af.location = APPLY_PP;
+					break;
+				case ITEM_IMPLANT_ARMS:
+				case ITEM_IMPLANT_LEGS:
+					af.location = APPLY_PS;
+					break;
+				case ITEM_IMPLANT_HANDS:
+				case ITEM_IMPLANT_FEET:
+					af.location = APPLY_PA;
+					break;
+			}
+			af.modifier  = number_range(-6, -1);
+			af.bitvector = AFF_NONE;
+			af.sn = -1;
+			affect_to_char (victim, &af);
+			//affect_join( victim, &af );
+			break;
+		case 6:
+		// rompe objeto y lo saca
+			act(AT_SKILL, "Consigues extraer $p, pero lo has roto.", ch, obj, NULL, TO_CHAR);
+			separate_obj( obj );
+			oprog_damage_trigger(ch, obj);
+			if ( !obj_extracted(obj) ) {
+				unequip_char( victim, obj );
+				make_scraps( obj );
+			}
+			break;
+		case 7:
+		// rompe objeto
+			act(AT_SKILL, "Has forzado demasiado $p y lo has roto completamente...", ch, obj, NULL, TO_CHAR);
+			separate_obj( obj );
+			oprog_damage_trigger(ch, obj);
+			if ( !obj_extracted(obj) ) {
+				make_scraps( obj );
+			}
+			break;
+		case 8:
+		// gran hemorragia
+			act(AT_BLOOD, "¡Has causado una fuerte hemorragia a $N!", ch, NULL, victim, TO_CHAR);
+			act( AT_BLOOD, "$N empieza a perder sangre.", ch, NULL, victim, TO_ROOM );
+			victim->mental_state = URANGE( 20, ch->mental_state + number_range(10,20), 100 );
+			af.type      = gsn_hemorragia;
+			af.duration  = UMAX(1, number_range(150,250) - get_curr_pr(victim) * 3);
+			af.location  = APPLY_NONE;
+			af.modifier  = number_range(30, 50);
+			af.bitvector = AFF_HEMORRAGIA;
+			af.sn = -1;
+			affect_join( victim, &af );
+			break;
+		case 9:
+		// pérdida de puntos de vida máximos
+			act(AT_BLOOD, "¡Has dañado el organismo de $N definitivamente!", ch, NULL, victim, TO_CHAR);
+			dam = number_range (1, 20);
+			victim->hit -= dam;
+			victim->max_hit -= dam;
+		break;
+		case 10:
+		// pérdida de características
+			act(AT_BLOOD, "¡Has dañado el organismo de $N definitivamente!", ch, NULL, victim, TO_CHAR);
+			switch (1ll << wearloc2itemwear(victim, obj->wear_loc)) {
+				case ITEM_IMPLANT_HEAD:
+				case ITEM_IMPLANT_EYES:
+				case ITEM_IMPLANT_EARS:
+				case ITEM_IMPLANT_NOSE:
+				case ITEM_IMPLANT_MOUTH:
+					switch (number_range(1,4)) {
+						case 1: stat = &(victim->perm_ms); break;
+						case 2: stat = &(victim->perm_ma); break;
+						case 3: stat = &(victim->perm_mr); break;
+						case 4: stat = &(victim->perm_mp); break;
+					}
+					break;
+				case ITEM_IMPLANT_HEART:
+					stat = &(victim->perm_pr);
+					break;
+				case ITEM_IMPLANT_LUNGS:
+					stat = &(victim->perm_pp);
+					break;
+				case ITEM_IMPLANT_ARMS:
+				case ITEM_IMPLANT_LEGS:
+					stat = &(victim->perm_ps);
+					break;
+				case ITEM_IMPLANT_HANDS:
+				case ITEM_IMPLANT_FEET:
+					stat = &(victim->perm_pa);
+					break;
+			}
+			(*stat)--;
+			break;
+	}
+}
+
+void do_easy_remove_implant(CHAR_DATA *ch, const char *argument) {
+	char arg1[MAX_INPUT_LENGTH], arg2[MAX_INPUT_LENGTH];
+	OBJ_DATA *obj = NULL;
+	CHAR_DATA *victim = NULL;
+	bool failed;
+	switch (ch->substate) {
+		case 1:
+			if ( !ch->dest_buf || !ch->dest_buf_2) {
+				send_to_char( "&R¡Tu operación ha sido interrumpida!\n\r", ch );
+				bug( "do_easy_remove_implant: ch->dest_buf o ch->dest_buf_2 NULL!", 0 );
+				return;
+			}
+			strcpy( arg1, ch->dest_buf );
+			strcpy( arg2, ch->dest_buf_2 );
+			DISPOSE( ch->dest_buf );
+			DISPOSE( ch->dest_buf_2);
+			ch->substate = SUB_NONE;
+			break;
+		case SUB_TIMER_DO_ABORT:
+			strcpy( arg1, ch->dest_buf );
+			strcpy( arg2, ch->dest_buf_2 );
+			DISPOSE( ch->dest_buf );
+			DISPOSE( ch->dest_buf_2);
+			ch->substate = SUB_NONE;
+			send_to_char( "&RDejas de hacer lo que estabas haciendo.\n\r", ch );
+			check_remove (ch, arg1, arg2, &obj, &victim);
+			fail_remove(ch, victim, obj, gsn_easy_remove_implant);
+			return;
+	}
+	failed = number_percent() >= (IS_NPC(ch) ? 80 : ch->pcdata->learned[gsn_easy_implant]);
+	if ( check_remove(ch, arg1, arg2, &obj, &victim) && !failed ) {
+		unequip_char (victim, obj);
+		act( AT_PLAIN, "Consigues extraer $p del cuerpo de $N.", ch, obj, victim, TO_CHAR);
+		act( AT_PLAIN, "%n extrae $p del cuerpo de $N.", ch, obj, victim, TO_ROOM);
+		if ( !can_drop_obj( ch, obj ) || IS_OBJ_STAT(obj, ITEM_INVENTORY) || IS_OBJ_STAT(obj, ITEM_PROTOTYPE)) {
+			act(AT_PLAIN, "Dejas $p con las pertenencias de $N.", ch, obj, victim, TO_CHAR);
+		} else if (ch->carry_number + 1 > can_carry_n( ch ) || ch->carry_weight + get_obj_weight(obj) > can_carry_w( ch )) {
+			separate_obj (obj);
+			act(AT_PLAIN, "Dejas $p en el suelo.", ch, obj, NULL, TO_CHAR);
+			obj_from_char (obj);
+			obj_to_room (obj, ch->in_room);
+		} else {
+			separate_obj (obj);
+			act(AT_PLAIN, "Coges $p.", ch, obj, NULL, TO_CHAR);
+			obj_from_char( obj );
+			obj_to_char( obj, ch );
+		}
+		learn_from_success (ch, gsn_easy_remove_implant);
+		gain_skill_exp(ch, gsn_easy_remove_implant);
+	} else {
+		act(AT_PLAIN, "No consigues extraer el implante del cuerpo de $N...", ch, NULL, victim, TO_CHAR);
+		fail_remove(ch, victim, obj, gsn_easy_remove_implant);
+		if (failed) {
+			learn_from_failure( ch, gsn_easy_remove_implant );
+		}
+	}
+}
+
+void do_remove_implant(CHAR_DATA *ch, const char *argument) {
+	char arg1[MAX_INPUT_LENGTH], arg2[MAX_INPUT_LENGTH];
+	OBJ_DATA *obj = NULL;
+	CHAR_DATA *victim = NULL;
+	int gsn;
+	
+	argument = one_argument( argument, arg1 );
+	argument = one_argument( argument, arg2 );
+	if (!check_remove(ch, arg1, arg2, &obj, &victim))
+		return;
+	gsn = find_remove_gsn(ch, obj);
+	if ( !IS_NPC(ch) && !ch->pcdata->learned[gsn] ) {
+		send_to_char("Retirar este implante es demasiado difícil para tí.\n\r", ch );
+		return;
+	}
+	ch_printf(ch, "Consideras que retirar este implante tiene una dificultad %s.\n\r",
+		gsn == gsn_easy_remove_implant? "baja" : (gsn == gsn_medium_remove_implant? "media": "alta"));
+	ch->dest_buf = str_dup( arg1 );
+	ch->dest_buf_2 = str_dup( victim->name );
+	if (gsn == gsn_easy_remove_implant) {
+		add_timer( ch, TIMER_DO_FUN, UMIN(skill_table[gsn_easy_remove_implant]->beats, 3), do_easy_remove_implant, 1 );
+		act (AT_PLAIN, "Con cuidado intentas extirpar $p del cuerpo de $N.", ch, obj, victim, TO_CHAR);
+		act (AT_PLAIN, "$n intenta extirpar $p del cuerpo de $N", ch, obj, victim, TO_ROOM);
+	} else if (gsn == gsn_medium_remove_implant) {
+	} else if (gsn == gsn_difficult_remove_implant) {
+		act( AT_PLAIN, "Coges un bisturí y empiezas a operar a $N.", ch, NULL, victim, TO_CHAR );
+		act( AT_PLAIN, "$n ha empezado a operar a $N.", ch, NULL, victim, TO_ROOM );
+	} else {
+		bug("do_remove_implant: invalid gsn %d", gsn);
+	}
+	return;
+}

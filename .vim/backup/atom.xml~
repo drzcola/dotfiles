@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xml:lang="es-es">
+	<title type="text">Atom</title>
+	<id>https://drzcola.000webhostapp.com/rss_01/rss/atom.xml</id>
+	<link rel="self" type="application/atom+xml" href="https://drzcola.000webhostapp.com/tarea03/rss/atom.xml" />
+	<link rel="alternate" type="text/html" href="hhttps://drzcola.000webhostapp.com/tarea03/rss/atom.xml"/>
+	<updated>1990-01-01T01:01:01Z</updated>
+	<author>
+		<name>Jose Ruiz</name>
+		<email>placeholder@mail.com</email>
+	</author>
+    <entry>
+		<title>El tiempo en Alhaurin</title>
+		<link rel="alternate" type="text/html" href="http://www.aemet.es/es/eltiempo/prediccion/municipios/alhaurin-de-la-torre-id29007" />
+		<updated>1990-01-01T01:01:01Z</updated>
+		<id>http://www.aemet.es/es/eltiempo/prediccion/municipios/alhaurin-de-la-torre-id29007</id>
+		<author>
+			<name>Aemet</name>
+		</author>
+		<summary>Consulta el tiempo meteorológico de Alhaurin</summary>
+	</entry>
+	<entry>
+		<title>Noticia almacenada en SERVIDOR</title>
+		<link rel="alternate" type="text/html" href="https://drzcola.000webhostapp.com/tarea03/hackernews.html"/>
+		<updated>2018-01-11T19:20:46Z</updated> <!-- Fecha del artículo -->
+		<id>https://drzcola.000webhostapp.com/tarea03/hackernews.html</id>
+		<author>
+			<name>The Hacker News</name> <!-- Datos del author del artículo -->
+		</author>
+        <summary></summary> <!-- breve descripción -->
+	</entry>
+</feed>

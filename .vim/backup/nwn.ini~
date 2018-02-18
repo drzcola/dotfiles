@@ -1,0 +1,54 @@
+[Alias]
+HD0=.\
+CD0=.\
+OVERRIDE=.\override
+TEMP=.\temp
+MODULES=.\modules
+LOGS=.\logs
+LOCALVAULT=.\localvault
+DMVAULT=.\dmvault
+SERVERVAULT=.\servervault
+TEMPCLIENT=.\tempclient
+SAVES=.\saves
+CURRENTGAME=.\currentgame
+HAK=.\hak
+PATCH=.\patch
+NWMFiles=.\nwm
+AMBIENT=.\ambient
+MOVIES=.\movies
+MUSIC=.\music
+[Sound Options]
+Music Volume=0.75
+Voice Volume=0.75
+SoundFX Volume=0.75
+DisableSound=0
+3D Provider=
+[Display Options]
+Width=800
+Height=600
+BitsPerPixels=32
+RefreshRate=60
+TexturePack=3
+SafeMovie=0
+FullScreen=1
+[Config]
+FirstRun=0
+Connection=0
+[Video Options]
+VideoQualitySetting=3
+Enable HardwareMouse=1
+NumDynamicLights=8
+AntiAliasing Mode=0
+Enable VSync=0
+ShinyWater=0
+NumShadowCastingLights=3
+EnableVisualEffectsHigh=1
+Enable Truform=0
+Enable AnisotropicFiltering=0
+CreatureWindSetting=0
+EnableGrass=0
+EnableFastGrass=1
+Grass Far Render Distance=900.0
+EnableSkyboxes=0
+EnableEnvironmentShadows=1
+Enable CreatureEnvironmentMapping=1

@@ -1,0 +1,3 @@
+#!/bin/bash
+
+WINEPREFIX=/home/slacker/wine-apps/gw wine /home/slacker/wine-apps/gw/drive_c/Program\ Files/Guild\ Wars/Gw.exe

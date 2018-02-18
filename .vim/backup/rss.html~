@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>RSS</title>>
+	<meta author="Jose Ruiz"/>
+	<meta charset="UTF-8"/>
+	<script type="text/javascript" src="js/rss.js"></script>
+	<script type="text/javascript">
+			window.onload = function(){
+				ReadRSS('rss/rss.xml','rssBodyTemplate','rssTitleTemplate');
+			}
+	</script>
+</head>
+<body>
+	<div id='rssBodyTemplate'>
+		<p>Noticia: <b>(::Title::)</b></p>
+		<p>Publicado en: <b>(::Pubdate::)</b></p>
+		<p>Descripcion: <b>(::Description::)</b></p>
+		<p><a href="(::Link::)" target="_blank">Enlace</a></p>
+	</div>
+</body>
+</html>

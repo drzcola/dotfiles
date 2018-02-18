@@ -1,0 +1,12 @@
+accounts/
+backup/
+corpses
+player/
+space/
+src/cfmud
+src/o/
+src/*.swp
+src/err_file
+src/template.c
+system/usage.txt
+system/WIZLIST

@@ -1,0 +1,75 @@
+/* Selector global de todo el elemento "body" */
+body {
+    /* Imagen de fondo responsiva */
+    background-image: url('https://www.nasa.gov/sites/default/files/thumbnails/image/smap-weather.jpg');
+    /* Se centra la imagen en ambos ejes */
+    background-position: center;
+    /* La imagen de fondo no se repite */
+    background-repeat: no-repeat;
+    /* La imagen permanece estatica, independiente del scrolling */
+    background-attachment: fixed;
+    /* La imagen cubre por completo el elemento body */
+    background-size: cover;
+    /* Color del fondo mientras carga la imagen */
+    background-color: #464646;
+    /* Se modifica la fuente de manera global */
+    font-family: 'Roboto', sans-serif;
+    /* Se modifica el color de texto de manera global */
+    color: white;
+}
+
+/* Selector de todos los elementos h1 */
+h1 {
+    /* Se modifica la fuente del elemento en concreto */
+    font-family: 'Pinyon Script';
+ }
+
+/* Selector de todos los elementos a */
+a {
+    /* Se elimina toda decoracion de texto (ej: subrayado) */
+    text-decoration: none;
+    /* Se evita que los hipervinculos cambien de color aunque hayan sido visitados */
+    color: white;
+}
+
+/* Selector de todos los elementos a cuando se pasa el raton sobre ellos */
+a:hover {
+    /* Se elimina toda decoracion de texto (ej: subrayado) */
+    text-decoration:none;
+    /* Se evita que los hipervinculos cambien de color aunque hayan sido visitados */
+    color: white;
+}
+/* Selector de todos los elementos iframe */
+iframe {
+    /* ancho del elemento */
+    width: 100%;
+    /* altura del elemento */
+    height: 100%;
+}
+
+/* Selector de todos los elementos ul */
+ul {
+    /* centrado del texto dentro del elemento */
+    text-align: center;
+    /* borrado del estilo de lista */
+    list-style-type: none;
+}
+
+/* Selector de elementos con clase container */
+.container {
+    width: 100%;
+    overflow: hidden;
+    text-align: center;
+}
+
+.weather {
+    width: 300px;
+    float: left;
+}
+
+.show {
+    width: 90%;
+    height: 700px;
+    margin-left: 5%;
+    text-align: justify;
+}

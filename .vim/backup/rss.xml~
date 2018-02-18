@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0">
+	<channel>
+		<title>RSS - Jose Ruiz</title>
+        <link>./rss/rss.xml</link>
+		<description>El tiempo RSS</description>
+		<pubDate>Mon, 29 Jan 2018 23:19:45 +0100</pubDate>
+		<lastBuildDate>Mon, 29 Jan 2018 23:19:45 +0100</lastBuildDate>
+		<managingEditor>placeholder@mail.com - Jose Ruiz</managingEditor>
+		<webMaster>placeholder@mail.com - WebMaster</webMaster>
+		<language>es-es</language>
+		<item>
+			<title>Malaga</title>
+			<link>http://www.aemet.es/es/eltiempo/prediccion/municipios/alhaurin-de-la-torre-id29007</link>
+			<description>El tiempo en Alhaurin de la Torre</description>
+			<guid>http://www.aemet.es/es/eltiempo/prediccion/municipios/alhaurin-de-la-torre-id29007</guid>
+			<pubDate>Mon, 15 Jan 2018 21:36:45 +0200</pubDate>
+		</item>
+		<item>
+			<title>The Hacker News</title>
+			<link>https://drzcola.000webhostapp.com/tarea03/hackernews.html</link>
+			<description>Microsoft Edge Is The Most Hacked Browser at Pwn2Own 2017</description>
+			<guid>https://drzcola.000webhostapp.com/tarea03/hackernews.html</guid>
+			<pubDate>Mon, 29 Jan 2018 23:19:45 +0100</pubDate>
+		</item>
+	</channel>
+</rss>

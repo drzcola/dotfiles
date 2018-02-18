@@ -64,6 +64,3 @@ autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
 " backup directories
 set backupdir=~/.vim/backup/
 set dir=~/.vim/backup/
-
-" disable macro recording
-map q <Nop>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta name="author" content="Jose Ruiz">
+	<meta charset='UTF-8'>
+	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="css/style.css"/>
+	<link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet'>
+	<link href="https://fonts.googleapis.com/css?family=Pinyon+Script" rel="stylesheet">
+	<meta title="Tarea Online 03 - LMS">
+</head>
+<body>
+	<div class='container col-lg-12'>
+		<div id='header'>
+			<h1>El tiempo en Alhaurin</h1>
+		</div>
+		<div id='links'>
+			<ul>
+				<form method="link" action="atom.html" target="feed-display">
+					<button>Atom</button>
+				</form>
+				<form method="link" action="rss.html" target="feed-display">
+					<button>RSS</button>
+				</form>
+			</ul>
+		</div>
+		<div class='show'>
+			<iframe src='display.html' name='feed-display'></iframe>
+		</div>
+	</div>
+</body>
+</html>

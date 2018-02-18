@@ -1,0 +1,104 @@
+void do_mech_mount(CHAR_DATA *ch, const char *argument) 
+{
+	char arg1[MAX_INPUT_LENGTH], arg2[MAX_INPUT_LENGTH], arg3[MAX_INPUT_LENGTH];
+	OBJ_DATA *obj;
+	CHAR_DATA *victim;
+	bool failed;
+	int gsn;
+
+	// switch (ch->substate) {
+	// 	default:
+    argument = one_argument( argument, arg1 );
+    argument = one_argument( argument, arg2 );
+	argument = one_argument( argument, arg3 );
+	if (!check_implant(ch, arg1, arg2, arg3, &obj, &victim))
+	    return;
+    gsn = find_gsn(ch, obj, get_implantflag(arg3));
+    if ( !IS_NPC(ch) && !ch->pcdata->learned[gsn] ) {
+        send_to_char("Implantar esto es demasiado difícil para tí.\n\r", ch );
+        return;
+    }
+    ch_printf(ch, "Consideras que este implante tiene una dificultad %s.\n\r",
+    gsn == gsn_easy_implant? "baja" : (gsn == gsn_medium_implant? "media": "alta"));
+    ch->dest_buf = str_dup( arg1 );
+    ch->dest_buf_2 = str_dup( victim->name );
+    ch->dest_buf_3 = str_dup(arg3);
+    if (gsn == gsn_easy_implant) {
+        add_timer( ch, TIMER_DO_FUN, UMIN(skill_table[gsn_easy_implant]->beats, 3), do_easy_implant, 1 );
+        act (AT_PLAIN, "Con cuidado intentas introducir $p en el cuerpo de $N.", ch, obj, victim, TO_CHAR);
+        act (AT_PLAIN, "$n intenta introducir $p en el cuerpo de $N", ch, obj, victim, TO_ROOM);
+    } else {
+        bug("do_implant: invalid gsn %d", gsn);
+    }
+    return;
+}
+
+void do_easy_mech_mount(CHAR_DATA *ch, const char *argument, sh_int wear_bit) {
+	char arg1[MAX_INPUT_LENGTH], arg2[MAX_INPUT_LENGTH], arg3[MAX_INPUT_LENGTH];
+	OBJ_DATA *obj = NULL;
+	CHAR_DATA *victim = NULL;
+	AFFECT_DATA af;
+	bool failed;
+	switch (ch->substate) {
+		case 1:
+			if ( !ch->dest_buf || !ch->dest_buf_2 || !ch->dest_buf_3) {
+				send_to_char( "&R¡Tu operación ha sido interrumpida!\n\r", ch );
+				bug( "do_easy_implant: ch->dest_buf o ch->dest_buf_2 o ch->dest_buf_3 NULL!", 0 );
+				return;
+			}
+			strcpy(arg1, ch->dest_buf);
+			strcpy(arg2, ch->dest_buf_2);
+			strcpy(arg3, ch->dest_buf_3);
+			DISPOSE(ch->dest_buf);
+			DISPOSE(ch->dest_buf_2);
+			DISPOSE(ch->dest_buf_3);
+			ch->substate = SUB_NONE;
+			break;
+		case SUB_TIMER_DO_ABORT:
+			strcpy(arg1, ch->dest_buf);
+			strcpy(arg2, ch->dest_buf_2);
+			strcpy(arg3, ch->dest_buf_3);
+			DISPOSE(ch->dest_buf);
+			DISPOSE(ch->dest_buf_2);
+			DISPOSE(ch->dest_buf_3);
+			ch->substate = SUB_NONE;
+			send_to_char( "&RDejas de hacer lo que estabas haciendo.\n\r", ch );
+			check_implant(ch, arg1, arg2, arg3, &obj, &victim);
+			fail_implant (ch, victim, obj, gsn_easy_implant, get_implantflag (arg3));
+			return;
+	}
+	failed = number_percent() >= (IS_NPC(ch) ? 80 : ch->pcdata->learned[gsn_easy_implant]);
+	if ( check_implant(ch, arg1, arg2, arg3, &obj, &victim) && !failed ) {
+		if (wear_implant(ch, victim, obj, get_implantflag(arg3))) {
+			act( AT_PLAIN, "Conectas el implante al cuerpo biológico de $N.", ch, NULL, victim, TO_CHAR );
+			act( AT_PLAIN, "$n realiza varias operaciones en el cuerpo de $N.", ch, NULL, victim, TO_ROOM );
+			// perdida de 2 puntos de stat segun implante
+			af.type      = -2;
+			af.duration  = (obj->level+1)*10;
+			switch (1ll << wear_bit) {
+				case ITEM_IMPLANT_ARMS:
+				case ITEM_IMPLANT_LEGS:
+					af.location = APPLY_PS;
+					break;
+				case ITEM_IMPLANT_HANDS:
+				case ITEM_IMPLANT_FEET:
+					af.location = APPLY_PA;
+					break;
+			}
+			af.modifier  = -1;
+			af.bitvector = AFF_NONE;
+			af.sn = -1;
+			affect_to_char( victim, &af );
+			// perdida de mitad de hp actual
+			victim->hit = victim->hit/2;
+			learn_from_success (ch, gsn_easy_implant);
+			gain_skill_exp(ch, gsn_easy_implant);
+		}
+	} else {
+		act(AT_PLAIN, "No consigues conectar correctamente el implante al cuerpo de $N...", ch, NULL, victim, TO_CHAR);
+		fail_implant(ch, victim, obj, gsn_easy_implant, get_implantflag (arg3));
+		if (failed) {
+			learn_from_failure( ch, gsn_easy_implant );
+		}
+	}
+}
